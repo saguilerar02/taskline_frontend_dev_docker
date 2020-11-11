@@ -1,0 +1,128 @@
+@import "~@angular/material/theming";
+// Define a mixin that accepts a theme and outputs the color styles for the component.
+@mixin global-styles($theme) {
+  // Extract whichever individual palettes you need from the theme.
+  @include mat-core();
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme,accent);
+
+  //COLORES
+  $success:mat-palette($mat-green, 400);
+  $info:mat-palette($mat-cyan, 400);
+  $warning:mat-palette($mat-amber, 400);
+  $error:mat-palette($mat-red, 400);
+
+  $Tresaltado:mat-palette($mat-grey, 50);
+
+ // Use mat-color to extract individual colors from a palette as necessary.
+
+  //CONTAINERS
+  .custom-container{
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content: flex-start ;
+    height: 100%;
+    padding: 0vh 5vw 0vh 5vw;
+  }
+
+  //BACKGROUNDS
+  .bg-hourglass{
+    background-image: url('./assets/img/login-background.jpg');
+    background-size: cover;
+  }
+
+
+  //CARDS
+
+  mat-card{
+    display: flex;
+
+  }
+
+  mat-card.header {
+    background-color: mat-color($primary) !important;
+    color:mat-color($Tresaltado);
+    text-align: start;
+    min-height: 5vh;
+    font-size: 5vh;
+    padding-top: 3vh;
+   
+  }
+  mat-card.default-thin-form-card{
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    padding: 0vh 0vw 3vh 0vw;
+    max-width: auto;
+  }
+  mat-card.card-logo{
+    display: flex;
+    flex-direction: row;
+    align-items:center ;
+    justify-content: center;
+    margin-bottom: 10vh;
+    padding: 1vh;
+    max-height: 5vh;
+    min-width: 10vw;
+    border-radius: 0px 0px 15px 15px;
+  }
+
+  //FORMS
+  form{
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-items: space-around;
+    padding: 1vh 1vw;
+  }
+
+  //FORMS FIELD
+  mat-form-field{
+    border-color:mat-color($accent) ;
+    display: block;
+    min-width: 17vw;
+    min-height: 10vh;
+  }
+
+  //FORM ERRORS
+   mat-error{
+     color:  mat-color($error);
+   }
+
+  //BUTTONS
+  button.form-buttons{
+    display: block;
+    color: mat-color($Tresaltado);
+    background-color: mat-color($accent);
+    min-width: 12vw;
+    margin:5% 0%;
+  }
+  button.link{
+    color:#f44336;
+    text-decoration: none;
+    margin: 2vh 1vw;
+  }
+  
+
+  //icons
+    mat-icon{
+      color: mat-color($accent);
+    }
+
+    //DATE PICKER TOGGLE
+
+    mat-datepicker-toggle{
+      color:mat-color($accent)
+    }
+  
+    //CUSTOM TEXTS
+    span.powered-text{
+      display: block;
+      align-self: center;
+      color: darkgrey;
+      font-size: large;
+    }
+
+}

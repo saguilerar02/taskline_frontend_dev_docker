@@ -1,0 +1,22 @@
+@import "../../../_global-styles.scss";
+
+
+
+
+
+
+
+
+input.example-right-align::-webkit-outer-spin-button,
+input.example-right-align::-webkit-inner-spin-button {
+  display: none;
+}
+
+input.example-right-align {
+  -moz-appearance: textfield;
+}
+
+.link{
+  color:#3f51b5 ;
+  text-decoration: none;
+}

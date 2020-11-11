@@ -1,0 +1,30 @@
+<div class="custom-container  bg-hourglass">
+  <mat-card class="card-logo">
+    <img width="200vw" src="./../../../assets/img/logo.png" alt="Taskline logo"/> 
+  </mat-card>
+    <mat-card class="default-thin-form-card">
+      <mat-card class="header" >
+        Iniciar sesión
+      </mat-card>
+      <mat-progress-bar *ngIf="isLoading" mode="indeterminate" color="accent"></mat-progress-bar>
+          <form id="login" name="login" [formGroup]="formGroup" (ngSubmit)="login()">
+            <mat-form-field color="accent" appearance="outline">
+              <mat-label>Introduzca su email</mat-label>
+                <input type="email" matInput  placeholder="Ex. pat@example.com"  [formControl]="email" [(ngModel)]="dto.email">
+              <mat-error *ngIf="email.invalid">{{ getErrorMessage('email')}}</mat-error>
+            </mat-form-field>
+            <mat-form-field color="accent" appearance="outline">
+              <mat-label>Introduzca su contraseña</mat-label>
+              <input name="password" matInput [type]="hide ? 'password' : 'text'"  [formControl]="password" [(ngModel)]="dto.password">
+              <button type="button" mat-icon-button matSuffix (click)="hide = !hide">
+                <mat-icon >{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+              <mat-error *ngIf="password.invalid">{{getErrorMessage('password')}}</mat-error>
+            </mat-form-field> 
+            <button  class="form-buttons" name="submit" mat-raised-button class="form-buttons" type="submit">Enviar</button>            
+        </form>
+        <button mat-raised-button class="link" href="https://www.google.com/" target="_blank">He olvidado las credenciales</button>
+        <button mat-raised-button class="link" href="https://www.google.com/" target="_blank">Aun no tengo cuenta</button>    
+        <span class="powered-text">Powered by TASKLINE</span>
+    </mat-card>
+</div>  

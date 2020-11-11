@@ -1,0 +1,32 @@
+@import '~@mat-datetimepicker/core/datetimepicker/datetimepicker-theme.scss';
+@import '~@angular/material/theming';
+@import './global-styles';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue.
+$taskline-app-primary: mat-palette($mat-pink, 800);
+$taskline-app-accent:  mat-palette($mat-indigo, 500);
+$taskline-app-warn:   mat-palette($mat-red, A700);
+$taskline-app-theme: mat-light-theme((
+  color: (
+    primary: $taskline-app-primary,
+    accent:$taskline-app-accent,
+    warn: $taskline-app-warn,  
+  )
+));
+
+$primary: mat-color($taskline-app-primary);
+$accent: mat-color($taskline-app-accent);
+$warn: mat-color($taskline-app-warn);
+
+
+@include angular-material-theme($taskline-app-theme);
+@include mat-datetimepicker-theme($taskline-app-theme);
+@include global-styles($taskline-app-theme);
