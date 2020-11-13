@@ -1,48 +1,56 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { LoginDTO } from 'src/app/dtos/login.dto';
+import { ActivatedRoute } from '@angular/router';
+import { ResetPasswordDTO } from 'src/app/dtos/resetPassword.dto';
 import { UsersService } from 'src/app/services/users.service';
 
 @Component({
-  selector: 'app-login-form',
-  templateUrl: './login-form.component.html',
-  styleUrls: ['./login-form.component.css']
+  selector: 'app-reset-password-form',
+  templateUrl: './reset-password-form.component.html',
+  styleUrls: ['./reset-password-form.component.scss']
 })
-export class LoginFormComponent implements OnInit {
+export class ResetPasswordFormComponent implements OnInit {
 
   public formGroup: FormGroup;
-  public dto: LoginDTO;
+  public dto: ResetPasswordDTO;
   public errors: {
-    email: string;
-    password: string;
+    pass1: string;
+    pass2: string;
   };
-    email: AbstractControl;
-    password: AbstractControl;
+  public pass1: AbstractControl;
+  public pass2: AbstractControl;
 
-  hide: boolean;
-  isLoading: boolean;
+  public user: string;
+  public token: string;
+  public hide: boolean;
+  public isLoading: boolean;
 
-  constructor(public userService: UsersService, private snackbar: MatSnackBar, private fb: FormBuilder ) {
+  constructor(private route: ActivatedRoute, public userService: UsersService, private snackbar: MatSnackBar, private fb: FormBuilder ) {
     this.isLoading = false;
     this.hide = true;
+    this.user ='';
     this.errors = {
-      email: null,
-      password: null
+      pass1: null,
+      pass2: null
     };
 
-    this.dto = new LoginDTO();
+    this.dto = new ResetPasswordDTO();
     this.hide = true;
     this.isLoading = false;
   }
 
     ngOnInit(): void {
       this.formGroup = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      pass1: ['', Validators.required],
+      pass2: ['', Validators.required],
     });
-      this.email = this.formGroup.controls.email;
-      this.password = this.formGroup.controls.password;
+      this.pass1 = this.formGroup.controls.pass1;
+      this.pass2 = this.formGroup.controls.pass2;
+      this.route.params.subscribe(params => {
+        this.user = params.user;
+        this.token = params.token;
+     });
     }
 
 
@@ -51,6 +59,7 @@ export class LoginFormComponent implements OnInit {
         return `El campo es requerido`;
       }
       if (this.formGroup.get(key).hasError('invalid')){
+        this.formGroup.controls[key].setErrors({invalid: false});
         return this.errors[key];
       }
       if (key === 'email' && this.formGroup.get(key).hasError('email')){
@@ -59,14 +68,12 @@ export class LoginFormComponent implements OnInit {
 
     }
 
-public login(): void{
+public resetPassword(): void{
   if (this.formGroup.valid){
     this.isLoading = true;
-    this.userService.login(this.dto).subscribe({
+    this.userService.resetPassword(this.dto, this.user, this.token).subscribe({
       next: (data: any) => {
-        console.log(data);
-        if (data.token){
-          localStorage.setItem('AUTHTOKEN', data.token);
+        if (data.msg){
           this.snackbar.open(data.msg);
           setTimeout(() => {
             this.isLoading = false;
@@ -75,16 +82,13 @@ public login(): void{
         }
       },
       error: (error: any) => {
-        let err = '';
         switch (error.type) {
           case 'ERROR': {
-             err += error.error;
-             this.snackbar.open(err);
+             this.snackbar.open(error.error);
           }
                         break;
           case 'BAD_CREDENTIALS': {
             Object.keys(this.dto).forEach((key) => {
-              this.formGroup.controls[key].reset();
               this.formGroup.controls[key].setErrors({invalid: true});
               this.errors[key] = error.error;
           });
@@ -106,4 +110,3 @@ public login(): void{
 
 }
 }
-

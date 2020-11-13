@@ -62,7 +62,7 @@ export class RegisterFormComponent implements OnInit {
     }
 
 
-    getErrorMessage(key: string) {
+    getErrorMessage(key: string): string {
         if (this.formGroup.get(key).hasError('required')){
           return `El campo es requerido`;
         }
@@ -73,7 +73,7 @@ export class RegisterFormComponent implements OnInit {
 
       }
 
-  public register(){
+  public register(): void{
     if (this.formGroup.valid){
       this.isLoading = true;
       this.userService.register(this.dto).subscribe({
@@ -103,9 +103,7 @@ export class RegisterFormComponent implements OnInit {
             });
             }                        break;
             default: {
-              err += error.error;
-              this.snackbar.open(err);
-
+              this.snackbar.open('Ha ocurrido un error inseperado, intentelo de nuevo más tarde');
             }        break;
          }
           setTimeout(() => {

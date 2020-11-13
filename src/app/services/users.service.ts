@@ -6,6 +6,7 @@ import { throwError } from 'rxjs/internal/observable/throwError';
 import {map,catchError} from 'rxjs/operators'
 import { LoginDTO } from '../dtos/login.dto';
 import { RegisterDTO } from '../dtos/register.dto';
+import { ResetPasswordDTO } from '../dtos/resetPassword.dto';
 
 @Injectable()
 export class UsersService {
@@ -20,12 +21,8 @@ export class UsersService {
     console.log(dto)
     return this.http.post( `https://localhost:3443/public/signin`, dto, {headers: this.headers})
                 .pipe(
-                    map((data:any) => {
-                      console.log(data);
-                      return data}),
-                    catchError(data => {
-                      console.log(data);
-                      return throwError(data.error)}),
+                    map((data:any) => {return data}),
+                    catchError(data => {return throwError(data.error)}),
                 );
                
     }
@@ -37,4 +34,24 @@ export class UsersService {
                 );
                
     }
+
+    sendMailResetPassword(dto:LoginDTO): Observable<string>{
+      return this.http.post( `https://localhost:3443/public/resetpassword`, dto, {headers: this.headers})
+                  .pipe(
+                      map((data:any) => {
+                        return data}),
+                      catchError(data => {
+                        return throwError(data.error)}),
+                  );
+                 
+      }
+
+      resetPassword(dto: ResetPasswordDTO, user:string,token:string): Observable<string>{
+        return this.http.post( `https://localhost:3443/public/resetpassword/${user}/${token}`, dto, {headers: this.headers})
+                    .pipe(
+                        map((data:any) => {return data}),
+                        catchError(data => {return throwError(data.error)}),
+                    );
+                   
+        }
 }
