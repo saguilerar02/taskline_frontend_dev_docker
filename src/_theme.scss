@@ -21,12 +21,24 @@ $taskline-app-theme: mat-light-theme((
     warn: $taskline-app-warn,  
   )
 ));
+$custom-typography: mat-typography-config(
+  $font-family: 'Roboto, monospace',
+  $headline: mat-typography-level(20px, 30px, 700),
+  $body-1: mat-typography-level(16px, 24px, 500)
+);
 
 $primary: mat-color($taskline-app-primary);
 $accent: mat-color($taskline-app-accent);
 $warn: mat-color($taskline-app-warn);
 
+@include mat-base-typography($custom-typography);
+@include mat-checkbox-typography($custom-typography);
+@include angular-material-typography($custom-typography);
+@include mat-core($custom-typography);
+
 
 @include angular-material-theme($taskline-app-theme);
 @include mat-datetimepicker-theme($taskline-app-theme);
+@include mat-list-theme($taskline-app-theme);
 @include global-styles($taskline-app-theme);
+

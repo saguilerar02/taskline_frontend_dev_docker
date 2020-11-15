@@ -1,0 +1,30 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <button mat-mini-fab color="primary" (click)="drawer.toggle()">
+            <mat-icon class="white">menu</mat-icon>
+        </button>
+        <span class="align-text">Taskline</span>
+        <span  class="spacer"></span>
+        <div class="toolbarUserProfile">
+            <span class="align-text">{{user.username}}</span>
+            <a [routerLink]="['/auth/user']" routerLinkActive="active" > 
+                <img class="avatar" [src]="user.img"/>
+            </a>
+        </div>
+    </mat-toolbar-row>
+</mat-toolbar>
+<mat-drawer-container autosize>
+    <mat-drawer #drawer class="large-drawer"  mode="over">
+        <mat-selection-list #routes [multiple]="false">
+            <mat-list-option *ngFor="let route of sidenavRoutes" [value]="route" (click)=navigateTo(route.route)>
+              {{route.title}} 
+              <mat-icon class="medium">{{route.icon}}</mat-icon>
+            </mat-list-option>
+          </mat-selection-list>
+    </mat-drawer>
+  
+    <div class="auth-container" color="accent">
+        <router-outlet></router-outlet>
+    </div>
+    
+  </mat-drawer-container>

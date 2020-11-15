@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl,   FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 import { RegisterDTO } from 'src/app/dtos/register.dto';
 import { UsersService } from 'src/app/services/users.service';
@@ -32,7 +33,7 @@ export class RegisterFormComponent implements OnInit {
   isLoading: boolean;
 
 
-  constructor(public userService: UsersService, private snackbar: MatSnackBar, private fb: FormBuilder ) {
+  constructor(public userService: UsersService, private snackbar: MatSnackBar, private fb: FormBuilder,  public router:Router) {
     this.isLoading = false;
     this.hide = true;
     this.errors = {
@@ -82,6 +83,7 @@ export class RegisterFormComponent implements OnInit {
           setTimeout(() => {
             this.isLoading = false;
             this.snackbar.dismiss();
+            this.router.navigateByUrl("/public/login")
           }, 2000);
         },
         error: (error: any) => {

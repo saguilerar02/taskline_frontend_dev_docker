@@ -1,0 +1,40 @@
+<div class="auth-custom-container">
+      <mat-card class="not-header-form-card">
+        <mat-progress-bar *ngIf="isLoading" mode="indeterminate" color="accent"></mat-progress-bar>
+            <img class="avatar-large" [src]="dto.profileImage"/>
+            <form id="image"  (ngSubmit)="updateProfileImage()" enctype="multipart/form-data">
+              <input type="file" (change)="getImage($event)">
+              <button  class="form-buttons" name="submit" mat-raised-button class="form-buttons" type="submit">Subir imagen</button>
+            </form>
+            <form id="registro" name="updateGroup" [formGroup]="updateGroup" (ngSubmit)="updateUser()">
+              <mat-form-field color="accent" appearance="outline">
+                <mat-label>Introduzca un email válido</mat-label>
+                  <input type="email" matInput  placeholder="Ex. pat@example.com"  [formControl]="email" [(ngModel)]="dto.email">
+                <mat-error *ngIf="email.invalid">{{ getErrorMessage('email')}}</mat-error>
+              </mat-form-field>
+              <mat-form-field color="accent" appearance="outline">
+                <mat-label>Introduzca su nuevo nombre de usuario</mat-label>
+                  <input type="text"   matInput  placeholder="Ex. pat@example.com" [formControl]="username" [(ngModel)]="dto.username">
+                <mat-error *ngIf="username.invalid">{{getErrorMessage('username')}}</mat-error>
+              </mat-form-field>
+              <mat-form-field color="accent" appearance="outline">
+                <mat-label>Introduzca su nuevo nombre</mat-label>
+                <input type="text" id="name" name="name" matInput  placeholder="Ex. pat@example.com" [formControl]="name" [(ngModel)]="dto.name">
+                <mat-error  color="warning" *ngIf="name.invalid">{{getErrorMessage('name')}}</mat-error>
+              </mat-form-field>
+              <mat-form-field color="accent" appearance="outline">
+                <mat-label>Introduzca la fecha de su cumpleaños</mat-label>
+                <input id="birthDate" name="birthDate" matInput [matDatepicker]="picker" [formControl]="birthDate" [(ngModel)]="dto.birthDate">
+                <mat-datepicker-toggle matSuffix [for]="picker">
+                  <mat-icon matDatepickerToggleIcon>
+                    event
+                </mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error  *ngIf="birthDate.invalid">{{getErrorMessage('birthDate')}}</mat-error>
+              </mat-form-field>              
+              <button  class="form-buttons" name="submit" mat-raised-button class="form-buttons" type="submit">Actualizar Usuario</button>
+          </form>
+          <span class="powered-text">Powered by TASKLINE</span>
+      </mat-card>
+  </div>  

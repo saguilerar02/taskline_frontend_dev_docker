@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { LoginDTO } from 'src/app/dtos/login.dto';
 import { UsersService } from 'src/app/services/users.service';
 
@@ -23,7 +24,7 @@ export class LoginFormComponent implements OnInit {
   hide: boolean;
   isLoading: boolean;
 
-  constructor(public userService: UsersService, private snackbar: MatSnackBar, private fb: FormBuilder ) {
+  constructor(public userService: UsersService, private snackbar: MatSnackBar, private fb: FormBuilder, public authRouter:Router ) {
     this.isLoading = false;
     this.hide = true;
     this.errors = {
@@ -43,6 +44,10 @@ export class LoginFormComponent implements OnInit {
     });
       this.email = this.formGroup.controls.email;
       this.password = this.formGroup.controls.password;
+      setTimeout(() => {
+        this.isLoading = false;
+        this.snackbar.dismiss();
+      }, 1000);
     }
 
 
@@ -64,13 +69,13 @@ public login(): void{
     this.isLoading = true;
     this.userService.login(this.dto).subscribe({
       next: (data: any) => {
-        console.log(data);
         if (data.token){
           localStorage.setItem('AUTHTOKEN', data.token);
           this.snackbar.open(data.msg);
           setTimeout(() => {
             this.isLoading = false;
             this.snackbar.dismiss();
+            this.authRouter.navigateByUrl("/auth/home");
           }, 1000);
         }
       },
@@ -92,7 +97,6 @@ public login(): void{
                                   break;
           default: {
             this.snackbar.open('Ha ocurrido un error inseperado, intentelo de nuevo más tarde');
-
           }
                    break;
        }

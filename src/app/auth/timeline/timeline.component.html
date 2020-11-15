@@ -1,0 +1,7 @@
+<cdk-virtual-scroll-viewport itemSize="1" (scrolledIndexChange)="getTimeline()" class="example-viewport">
+    <mat-card *ngIf="items.length==0">No hay tareas creadas aún, prueba a crear alguna</mat-card>
+    <div *cdkVirtualFor="let item of items">
+        <app-preview-simple-task [task]="item"></app-preview-simple-task>
+    </div>
+</cdk-virtual-scroll-viewport>
+  
