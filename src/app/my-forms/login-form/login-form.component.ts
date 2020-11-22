@@ -8,7 +8,7 @@ import { UsersService } from 'src/app/services/users.service';
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
-  styleUrls: ['./login-form.component.css']
+  styleUrls: ['./login-form.component.scss']
 })
 export class LoginFormComponent implements OnInit {
 
@@ -71,6 +71,7 @@ public login(): void{
       next: (data: any) => {
         if (data.token){
           localStorage.setItem('AUTHTOKEN', data.token);
+          localStorage.setItem('USER',data.user);
           this.snackbar.open(data.msg);
           setTimeout(() => {
             this.isLoading = false;

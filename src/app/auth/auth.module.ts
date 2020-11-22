@@ -6,16 +6,22 @@ import {  RouterModule } from '@angular/router';
 import { TimelineComponent } from './timeline/timeline.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { TasksModule } from '../tasks/tasks.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CreateTaskDialogComponent } from './create-task-dialog/create-task-dialog.component';
+import { AddContributorsDialogComponent } from './add-contributors-dialog/add-contributors-dialog.component';
+
 
 
 @NgModule({
-  declarations: [AuthHomePageComponent, TimelineComponent],
+  declarations: [AuthHomePageComponent, TimelineComponent, CreateTaskDialogComponent, AddContributorsDialogComponent],
   imports: [
     CommonModule,
     MaterialModule,
     RouterModule,
     ScrollingModule,
-    TasksModule
+    TasksModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports:[
     AuthHomePageComponent,

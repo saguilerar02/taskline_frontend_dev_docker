@@ -8,7 +8,7 @@
         <div class="toolbarUserProfile">
             <span class="align-text">{{user.username}}</span>
             <a [routerLink]="['/auth/user']" routerLinkActive="active" > 
-                <img class="avatar" [src]="user.img"/>
+                <img class="avatar" [src]="user.profileImage"/>
             </a>
         </div>
     </mat-toolbar-row>
@@ -16,9 +16,36 @@
 <mat-drawer-container autosize>
     <mat-drawer #drawer class="large-drawer"  mode="over">
         <mat-selection-list #routes [multiple]="false">
-            <mat-list-option *ngFor="let route of sidenavRoutes" [value]="route" (click)=navigateTo(route.route)>
-              {{route.title}} 
-              <mat-icon class="medium">{{route.icon}}</mat-icon>
+            <mat-list-option (click)="navigateTo('auth/home')">
+                <div class="sidenav-list-option">
+                    <mat-icon class="sidenav-icon">home</mat-icon>
+                    <span class="">Home</span>
+                </div>
+            </mat-list-option>
+            <mat-list-option (click)=openListDialog()>
+                <div class="sidenav-list-option">
+                    <mat-icon class="sidenav-icon">playlist_add</mat-icon>
+                    <span>Añadir nueva lista</span> 
+                </div>
+            </mat-list-option>
+            <mat-list-option (click)=openTaskDialog()>
+                <div class="sidenav-list-option">
+                    <mat-icon class="sidenav-icon">add_task</mat-icon>
+                    <span>Añadir nueva tarea</span> 
+                </div>
+            </mat-list-option>
+            <mat-list-option *ngFor="let list of lists" [value]="list" >
+                <div class="sidenav-user-lists">
+                    <mat-icon class="sidenav-icon">line_weight</mat-icon>
+                    <span class="">{{list.name}} </span>
+                </div>
+            </mat-list-option>
+            
+            <mat-list-option (click)=cerrarSession()>
+                <div class="sidenav-list-option">
+                    <mat-icon class="sidenav-icon">close</mat-icon>
+                    <span>Cerrar Sesión</span> 
+                </div>
             </mat-list-option>
           </mat-selection-list>
     </mat-drawer>

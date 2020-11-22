@@ -1,9 +1,37 @@
-<mat-card>
+<mat-card class="preview-class">
     <mat-card-title>{{task.goal}} </mat-card-title>
-    <mat-card-subtitle>Fecha límite: {{task.archivementDateTime}}</mat-card-subtitle> 	
-    <mat-card-content>{{task.description}}</mat-card-content>
-    <mat-card-actions>	Container for buttons at the bottom of the card</mat-card-actions> 
-    <mat-card-footer></mat-card-footer> 
+    <mat-card-subtitle>Fecha límite: {{task.archivementDateTime | date:'medium' }}</mat-card-subtitle> 	
+    <mat-card-content>
+        {{task.description}}
+    </mat-card-content>
+    <mat-card-actions>	
+    <div class="center">
+        <button  mat-mini-fab class="info mini-fab" (click)="inpectTask.emit(this.task)">
+            <mat-icon class="white">preview</mat-icon>
+         </button>            
+         <button  mat-mini-fab class="error mini-fab"  (click)="delete()">
+             <mat-icon class="white">delete</mat-icon>
+         </button>            
+         <button mat-mini-fab  class="success mini-fab" *ngIf="task.status == 'PENDING'"(click)="setStatus('COMPLETED')">
+             <mat-icon class="white">done</mat-icon>
+         </button>    
+         <button mat-mini-fab class="warning mini-fab" *ngIf="task.status == 'PENDING'"  (click)="setStatus('FAIL')">
+             <mat-icon class="white">highlight_off</mat-icon>
+         </button> 
+    </div>
+    <div class="center">
+        <button mat-mini-fab  class="accent mini-fab" (click)="addContributors.emit(this.task)">
+            <mat-icon class="white">person_add</mat-icon>
+        </button>   
+         <button mat-mini-fab class="grey mini-fab" >
+            <mat-icon class="white">add_alert</mat-icon>
+        </button> 
+    </div>
+    </mat-card-actions> 
+    <mat-card-footer>
+        <span  class="powered-text">{{task.idTasklist.name}}</span>
+    </mat-card-footer>
+           
 </mat-card>
 
 

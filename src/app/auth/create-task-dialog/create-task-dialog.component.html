@@ -1,0 +1,39 @@
+<div  mat-dialog-content >
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate" color="accent"></mat-progress-bar>
+    <form id="create" name="formGroup" [formGroup]="formGroup" (ngSubmit)="save()">
+        <mat-form-field color="accent" appearance="outline">
+            <mat-label>Meta a cumplir</mat-label>
+                <input type="text" matInput [formControl]="goal" [(ngModel)]="task.goal" placeholder="¿Que meta quiere cumplir?">
+            <mat-error *ngIf="goal.invalid">{{ getErrorMessage('goal')}}</mat-error>
+        </mat-form-field>
+        <mat-form-field color="accent" appearance="outline">
+            <mat-label >Fecha de cuplimiento</mat-label>
+            <mat-datetimepicker-toggle color="accent" [for]="datetimePicker" matSuffix></mat-datetimepicker-toggle>
+            <mat-datetimepicker color="accent" #datetimePicker type="datetime" openOnFocus="true" timeInterval="5" [(ngModel)]="task.archivementDateTime"></mat-datetimepicker>
+            <input type="datetime" name="archivementDateTime" matInput [matDatetimepicker]="datetimePicker" autocomplete="false" [formControl]="archivementDateTime"  [(ngModel)]="task.archivementDateTime">
+            <mat-error *ngIf="errors.archivementDateTime"> {{getErrorMessage('archivementDateTime')}}</mat-error>
+            </mat-form-field>
+        <mat-form-field color="accent" appearance="outline">
+        <mat-label>Descipcion</mat-label>
+            <textarea matInput type="text" id="description" name="description" matInput  placeholder="Describa brevemente su meta a cumplir" 
+            [formControl]="description" [(ngModel)]="task.description"></textarea>
+            
+            <mat-error  color="warning" *ngIf="description.invalid">{{getErrorMessage('descripcion')}}</mat-error>
+        </mat-form-field>   
+        <mat-form-field color="accent" appearance="outline">
+            <mat-label>Lista de tareas</mat-label>
+            <mat-select [formControl]="idTasklist" required [(ngModel)]="task.idTasklist">
+                <mat-option>Seleccione una lista</mat-option>
+                <mat-option *ngFor="let  list of lists" [value]="list._id" >
+                {{list.name}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="idTasklist.hasError('required')">Por favor, selecione una lista</mat-error>
+            <mat-error *ngIf="idTasklist.hasError('invalid')">{{getErrorMessage('idTasklist')}}</mat-error>
+
+            </mat-form-field>
+            <button  mat-raised-button class="form-buttons"class="form-buttons" name="submit" type="submit">Actualizar tarea</button>
+            <span class="powered-text">Powered by TASKLINE</span>
+    </form>
+</div>
+  

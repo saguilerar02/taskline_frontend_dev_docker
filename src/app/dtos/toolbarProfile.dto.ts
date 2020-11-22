@@ -1,5 +1,7 @@
 export class ToolbarProfileDTO{
+    _id:string
     username:string
-    img:string
+    name:string
+    profileImage:string
 
 }

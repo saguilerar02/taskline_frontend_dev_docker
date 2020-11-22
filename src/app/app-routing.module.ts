@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthHomePageComponent } from './auth/auth-home-page/auth-home-page.component';
+import { CreateTaskDialogComponent } from './auth/create-task-dialog/create-task-dialog.component';
 import { TimelineComponent } from './auth/timeline/timeline.component';
 import { LoginFormComponent } from './my-forms/login-form/login-form.component';
 import { RegisterFormComponent } from './my-forms/register-form/register-form.component';
@@ -21,8 +22,8 @@ const routes: Routes = [
       component: TimelineComponent,
     },
     {
-      path: 'create',
-      component: LoginFormComponent,
+      path: 'new_task',
+      component: CreateTaskDialogComponent,
     },
     {
       path: 'user',

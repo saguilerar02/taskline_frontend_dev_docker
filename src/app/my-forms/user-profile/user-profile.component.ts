@@ -17,6 +17,7 @@ export class UserProfileComponent implements OnInit {
   public updateGroup: FormGroup;
 
   private image: File;
+  public img: string;
 
   public dto: CompleteUserProfileDTO;
   public errors: {
@@ -25,7 +26,6 @@ export class UserProfileComponent implements OnInit {
     name: string
     phoneNumber: string
     birthDate: Date
-    profileImage: string
   };
 
     email: AbstractControl;
@@ -33,7 +33,6 @@ export class UserProfileComponent implements OnInit {
     name: AbstractControl;
     phoneNumber: AbstractControl;
     birthDate: AbstractControl;
-    profileImage: AbstractControl;
 
 
   hide: boolean;
@@ -49,7 +48,6 @@ export class UserProfileComponent implements OnInit {
       name: null,
       phoneNumber: null,
       birthDate: null,
-      profileImage: null,
     };
     this.imageGroup = new FormData();
     this.dto = new CompleteUserProfileDTO();
@@ -72,6 +70,9 @@ export class UserProfileComponent implements OnInit {
       this.getUserProfile();
     }
 
+    openFileSelector(){
+      document.getElementById("input-image").click()
+    }
 
     getErrorMessage(key: string): string {
         if (this.updateGroup.get(key).hasError('required')){
@@ -80,12 +81,16 @@ export class UserProfileComponent implements OnInit {
         if (this.updateGroup.get(key).hasError('invalid')){
           return this.errors[key];
         }
+        if (this.updateGroup.get(key).hasError('pattern')){
+          return this.errors[key]= "El numero de teléfono es invalido. Ejemplos válidos: +346434... 00349343... 347234..)?[6789";
+        }
     }
 
     getUserProfile(){
         this.userService.getUserProfile().subscribe({
           next: (data: any) => {
             this.dto = data.user;
+            this.img = data.img;
           },
           error: (error: any) => {
             if(error.type === 'ERROR'){
@@ -146,6 +151,8 @@ export class UserProfileComponent implements OnInit {
     getImage(event){
       if(event.target.files[0]){
         this.image = event.target.files[0];
+        document.getElementById("mat-button-img-selector").textContent = this.image.name
+
       }
       
     }

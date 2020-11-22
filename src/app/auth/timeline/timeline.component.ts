@@ -1,8 +1,11 @@
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import {Component, OnInit, ViewChild} from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TaskDTO } from 'src/app/dtos/simpleTask.dto';
 import { TaskService } from 'src/app/services/task.service';
+import { AddContributorsDialogComponent } from '../add-contributors-dialog/add-contributors-dialog.component';
+import { CreateTaskDialogComponent } from '../create-task-dialog/create-task-dialog.component';
 
 @Component({
   selector: 'app-timeline',
@@ -19,7 +22,7 @@ export class TimelineComponent implements OnInit {
   private lastTask: string;
   private totalTasks: number;
   public recargable: boolean;
-  constructor(public taskService: TaskService, private snackbar: MatSnackBar) {
+  constructor(public taskService: TaskService, private snackbar: MatSnackBar, private dialog: MatDialog) {
 
     this.items  = new Array<TaskDTO>();
     this.lastTask = '';
@@ -28,14 +31,11 @@ export class TimelineComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.viewPort.scrollToIndex(this.items.length-1)
-
   }
 
   getTimeline(){
-
+    console.log("hola")
     if (this.recargable){
-      console.log(this.items);
       this.recargable = false;
       const endData = this.viewPort.getRenderedRange().end;
       if (this.items.length < this.totalTasks && endData === this.items.length){
@@ -47,10 +47,9 @@ export class TimelineComponent implements OnInit {
                 newArray.push(...data.timeline);
                 this.items = newArray;
                 this.items.sort((a, b) =>(new Date(a.archivementDateTime).getTime() - new Date(b.archivementDateTime).getTime()));
-                this.viewPort.scrollToIndex(this.items.length);
+                this.lastTask = this.items[this.items.length-1]._id;
               }
               this.recargable = true;
-              this.lastTask = data.timeline[data.timeline.length - 1]._id;
             },
             error: (error) => {
               this.snackbar.open(error.error);
@@ -60,7 +59,56 @@ export class TimelineComponent implements OnInit {
             },
           });
       }
+      
+    }
     }
     
+    inspectTask(task:TaskDTO){
+      const dialogRef = this.dialog.open(CreateTaskDialogComponent, {
+        height: '80vh',
+        maxWidth: '75vw',
+        data: {task: task}
+      });
+  
+      dialogRef.afterClosed().subscribe(
+        (result) => {
+          if (result){
+            this.snackbar.open('La tarea se ha guardado con éxito');
+            setTimeout(() => {
+              this.snackbar.dismiss();
+            }, 1000);
+          }
+        }
+      );
+    }
+
+    addContributors(task:TaskDTO){
+      const dialogRef = this.dialog.open(AddContributorsDialogComponent, {
+        height: '80vh',
+        maxWidth: '75vw',
+        data: {task: task}
+      });
+  
+      dialogRef.afterClosed().subscribe(
+        (result) => {
+          if (result){
+            this.snackbar.open('La tarea se ha guardado con éxito');
+            setTimeout(() => {
+              this.snackbar.dismiss();
+            }, 1000);
+          }
+        }
+      );
+    }
+
+    deleteTask(id:string){
+      this.items = this.items.filter((task)=>{return task._id!==id});
+
+    }
+    updateTask(task:TaskDTO){
+      let index = this.items.findIndex((t)=>{t._id === task._id})
+      this.items[index] = task;
+      this.deleteTask(task._id);
+
     }
 }

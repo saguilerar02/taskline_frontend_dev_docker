@@ -9,7 +9,6 @@ import { ResetPasswordFormComponent } from './my-forms/reset-password-form/reset
 import { SendMailResetPasswordFormComponent } from './my-forms/send-mail-reset-password-form/send-mail-reset-password-form.component';
 import { UserProfileComponent } from './my-forms/user-profile/user-profile.component';
 
-
 @NgModule({
   declarations: [LoginFormComponent, RegisterFormComponent, ResetPasswordFormComponent, SendMailResetPasswordFormComponent, UserProfileComponent],
   imports: [

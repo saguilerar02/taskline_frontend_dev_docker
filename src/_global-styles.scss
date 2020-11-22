@@ -12,7 +12,7 @@
   $warning:mat-palette($mat-amber, 400);
   $error:mat-palette($mat-red, 400);
 
-  $Tresaltado:mat-palette($mat-grey, 50);
+  $white:mat-palette($mat-grey, 50);
 
   $grey:mat-palette($mat-blue-grey, 700);
 
@@ -23,14 +23,22 @@
     background-color: mat-color($grey);
   }
   //CONTAINERS
-  mat-drawer-container{
-    height: 93vh;
+
+  div.center{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
   }
+  .sidenav-list-option{
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: stretch;
+    }
   .custom-container{
     display: flex;
     flex-direction: column;
     align-items:center;
-    justify-content: flex-start ;
     height: 100%;
     padding: 0vh 5vw 0vh 5vw;
     background-color: mat-color($grey);
@@ -38,20 +46,17 @@
   .auth-container{
     display: flex;
     flex-direction: column;
-    padding: 0vh 15vw 0vh 15vw;
+    align-items: center;
+    padding: 5vh 40vw 5vh 40vw;
     background-color: mat-color($grey);
     height: 100%;
-  }
-  .auth-custom-container{
-    display: flex;
-    flex-direction: column;
-    padding: 5vh  25vw 0vh 25vw;
-    height: 100%;
-    background-color: mat-color($grey);
   }
 
   .spacer{
     flex: 1 1 auto;
+  }
+  .spacer-small{
+    flex: 0.25 0.25 auto;
   }
   .toolbarUserProfile{
     display: flex;
@@ -75,19 +80,13 @@
 
   //CARDS
 
-  mat-card{
-    display: flex;
-
-  }
-
   mat-card.header {
     background-color: mat-color($primary) !important;
-    color:mat-color($Tresaltado);
-    text-align: start;
+    color:mat-color($white);
+    text-align: flex-start;
     min-height: 5vh;
     font-size: 5vh;
     padding-top: 3vh;
-   
   }
   mat-card.default-thin-form-card{
     display: flex;
@@ -117,6 +116,15 @@
     border-radius: 0px 0px 15px 15px;
   }
 
+  mat-card.preview-class{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3vh 1vw;
+
+    margin: 5vh;
+  }
+
   //FORMS
   form{
     display: flex;
@@ -142,7 +150,7 @@
   //BUTTONS
   button.form-buttons{
     display: block;
-    color: mat-color($Tresaltado);
+    color: mat-color($white);
     background-color: mat-color($accent);
     min-width: 12vw;
     margin:5% 0%;
@@ -152,16 +160,23 @@
     text-decoration: none;
     margin: 2vh 1vw;
   }
+  button.mini-fab{
+    margin: 0vh 0.5vw;
+  }
   
-
   //icons
     mat-icon{
       color: mat-color($accent);
       max-width: 5vh;
     }
     mat-icon.white{
-      color: mat-color($Tresaltado);
+      color: mat-color($white)!important;
     }
+    mat-icon.sidenav-icon{
+      max-width: 5vw;
+      margin-right: 1vw;
+    }
+    
 
 
     //DATE PICKER TOGGLE
@@ -172,7 +187,7 @@
   
     //CUSTOM TEXTS
     span.powered-text{
-      display: block;
+      display: flex;
       align-self: center;
       color: darkgrey;
       font-size: large;
@@ -182,7 +197,14 @@
     cdk-virtual-scroll-viewport{
       display: flex;
       flex-direction: column;
+      width: 80vw;
       height: 93vh;
+    }
+    cdk-virtual-scroll-viewport.small{
+      display: flex;
+      flex-direction: column;
+      width: auto;
+      height: 20vh;
     }
 
     //img
@@ -191,6 +213,11 @@
       max-width: 40px;
       border-radius: 50%;
       margin: 0vh 1vw;
+    }
+    img.avatar-grid{
+      vertical-align: middle;
+      max-width: 40px;
+      border-radius: 50%;
     }
     img.avatar-large{
       display: block;
@@ -210,12 +237,35 @@
 
     //sidenav
     mat-drawer.large-drawer{
-      width: 20vw;
+      min-width: 20vw;
     }
-    mat-list-option.sidenav-item{
+
+    mat-card-footer{
       display: flex;
-      flex-direction: row;
-      align-items: stretch;
-      justify-content: space-around;
+      padding: 1vh 1vw;
+      justify-content: flex-start;
+      max-height: 5vh;
+    }
+
+    //COLORS BACKGROUND
+    .info{
+      background-color: mat-color($info)!important;
+      color:mat-color($white);
+    }
+    .error{
+      background-color: mat-color($error)!important;
+      color:mat-color($white);
+    }
+    .success{
+      background-color: mat-color($success)!important;
+      color:mat-color($white);
+    }
+    .warning{
+      background-color: mat-color($warning)!important;
+      color:mat-color($white);
+    }
+    .grey{
+      background-color: mat-color($grey)!important;
+
     }
 }

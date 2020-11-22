@@ -1,10 +1,12 @@
-<div class="auth-custom-container">
       <mat-card class="not-header-form-card">
         <mat-progress-bar *ngIf="isLoading" mode="indeterminate" color="accent"></mat-progress-bar>
-            <img class="avatar-large" [src]="dto.profileImage"/>
+            <img class="avatar-large" [src]="img"/>
+            <div class="center">
+              <button id="mat-button-img-selector" mat-raised-button class="form-buttons"(click)="openFileSelector()">Seleccionar imagen</button>
+            </div>
             <form id="image"  (ngSubmit)="updateProfileImage()" enctype="multipart/form-data">
-              <input type="file" (change)="getImage($event)">
-              <button  class="form-buttons" name="submit" mat-raised-button class="form-buttons" type="submit">Subir imagen</button>
+              <input  hidden  id="input-image" class="ng-hide" type="file" (change)="getImage($event)">
+              <button name="submit" mat-raised-button class="form-buttons" type="submit">Subir imagen</button>
             </form>
             <form id="registro" name="updateGroup" [formGroup]="updateGroup" (ngSubmit)="updateUser()">
               <mat-form-field color="accent" appearance="outline">
@@ -14,13 +16,18 @@
               </mat-form-field>
               <mat-form-field color="accent" appearance="outline">
                 <mat-label>Introduzca su nuevo nombre de usuario</mat-label>
-                  <input type="text"   matInput  placeholder="Ex. pat@example.com" [formControl]="username" [(ngModel)]="dto.username">
+                  <input type="text"   matInput  [formControl]="username" [(ngModel)]="dto.username">
                 <mat-error *ngIf="username.invalid">{{getErrorMessage('username')}}</mat-error>
               </mat-form-field>
               <mat-form-field color="accent" appearance="outline">
                 <mat-label>Introduzca su nuevo nombre</mat-label>
-                <input type="text" id="name" name="name" matInput  placeholder="Ex. pat@example.com" [formControl]="name" [(ngModel)]="dto.name">
+                <input type="text" id="name" name="name" matInput  placeholder="Will Smith Robertson" [formControl]="name" [(ngModel)]="dto.name">
                 <mat-error  color="warning" *ngIf="name.invalid">{{getErrorMessage('name')}}</mat-error>
+              </mat-form-field>
+              <mat-form-field color="accent" appearance="outline">
+                <mat-label>Introduzca su numero de telefono</mat-label>
+                <input type="text" id="phoneNumber" name="phoneNumber" matInput  placeholder="+345666... - 92434..." [formControl]="phoneNumber" [(ngModel)]="dto.phoneNumber">
+                <mat-error  color="warning" *ngIf="phoneNumber.invalid">{{getErrorMessage('phoneNumber')}}</mat-error>
               </mat-form-field>
               <mat-form-field color="accent" appearance="outline">
                 <mat-label>Introduzca la fecha de su cumpleaños</mat-label>
@@ -37,4 +44,3 @@
           </form>
           <span class="powered-text">Powered by TASKLINE</span>
       </mat-card>
-  </div>  

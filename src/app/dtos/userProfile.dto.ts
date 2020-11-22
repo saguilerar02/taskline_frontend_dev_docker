@@ -4,5 +4,4 @@ export class CompleteUserProfileDTO{
     name:String
     phoneNumber:String
     birthDate:Date
-    profileImage:String
 }
