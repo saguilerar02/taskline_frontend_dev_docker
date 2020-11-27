@@ -28,12 +28,6 @@
                     <span>Añadir nueva lista</span> 
                 </div>
             </mat-list-option>
-            <mat-list-option (click)=openTaskDialog()>
-                <div class="sidenav-list-option">
-                    <mat-icon class="sidenav-icon">add_task</mat-icon>
-                    <span>Añadir nueva tarea</span> 
-                </div>
-            </mat-list-option>
             <mat-list-option *ngFor="let list of lists" [value]="list" >
                 <div class="sidenav-user-lists">
                     <mat-icon class="sidenav-icon">line_weight</mat-icon>

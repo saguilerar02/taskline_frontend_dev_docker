@@ -17,8 +17,13 @@ export class TaskService {
     this.headers = new HttpHeaders({'Content-Type': 'application/json'});
   }
 
-    getTimeline(lastTask:string): Observable<any>{
-      return this.http.get( `https://localhost:3443/auth/timeline/${lastTask}`, {headers: this.headers})
+    getTimeline(lastTask:string, lastDate:string): Observable<any>{
+      let path =`https://localhost:3443/auth/timeline/${lastTask}/${lastDate}`;
+      if(lastTask.length===0 && lastDate.length===0){
+        path = "https://localhost:3443/auth/timeline"
+      }
+     
+      return this.http.get( path, {headers: this.headers})
                   .pipe(
                       map((data:any) => {return data}),
                       catchError(data => {return throwError(data.error)}),

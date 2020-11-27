@@ -1,4 +1,6 @@
 <div  mat-dialog-content >
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate" color="accent"></mat-progress-bar>
+    <h1> Compartir la tarea...</h1>
     <form id="create" name="formGroup" [formGroup]="formGroup" (ngSubmit)="updateTask()">
         <mat-form-field color="accent" appearance="outline">
             <mat-label>Buscador de Contribuidores</mat-label>
@@ -27,6 +29,8 @@
                   </mat-grid-tile>
                   </mat-grid-list>
           </cdk-virtual-scroll-viewport>
+          <span class="spacer"></span>
+          <button mat-raised-button class="form-buttons" name="submit" type="submit">Actualizar tarea</button>
     </form>
 </div>
 

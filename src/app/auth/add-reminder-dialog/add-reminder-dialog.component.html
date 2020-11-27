@@ -1,0 +1,35 @@
+<div  mat-dialog-content >
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate" color="accent"></mat-progress-bar>
+    <h1> Compartir la tarea...</h1>
+    <form id="create" name="formGroup" [formGroup]="formGroup" (ngSubmit)="createReminder()">
+        <mat-form-field color="accent" appearance="outline">
+            <mat-label>Mensaje para el recordatorio</mat-label>
+                <input type="text" matInput [formControl]="reminderData" [(ngModel)]="reminder.reminderData" placeholder="¿Que meta quiere cumplir?">
+            <mat-error *ngIf="reminderData.invalid">{{ getErrorMessage('reminderData')}}</mat-error>
+        </mat-form-field>
+        <mat-form-field color="accent" appearance="outline">
+            <mat-label >Fecha del recordatorio</mat-label>
+            <mat-datetimepicker-toggle color="accent" [for]="datetimePicker" matSuffix></mat-datetimepicker-toggle>
+            <mat-datetimepicker color="accent" #datetimePicker type="datetime" openOnFocus="true" timeInterval="4"></mat-datetimepicker>
+            <input type="datetime" matInput [matDatetimepicker]="datetimePicker" autocomplete="false" [formControl]="remindAt"  [(ngModel)]="reminder.remindAt">
+            <mat-error *ngIf="remindAt.invalid"> {{getErrorMessage('remindAt')}}</mat-error>
+            </mat-form-field>
+          <span class="spacer"></span>
+          <button mat-raised-button class="form-buttons" name="submit" type="submit">Actualizar tarea</button>
+    </form>
+    <cdk-virtual-scroll-viewport class="small" itemSize="1" *ngIf="data.task.reminders.length>0">
+        <mat-grid-list class="contributors" cols="1"  rowHeight="15vh"  gutterSize="10px">
+            <mat-grid-tile class="no-padding"  *ngFor="let reminder of data.task.reminders">
+                <mat-card class="mini-card">
+                    <mat-card-title>{{reminder.reminderData}}</mat-card-title>
+                    <mat-card-subtitle>{{reminder.remindAt | date: 'medium'}}</mat-card-subtitle> 
+                    <button  mat-mini-fab class="error mini-fab" (click)="deleteReminder(reminder._id)">
+                        <mat-icon class="white">delete</mat-icon>
+                    </button>  	
+                </mat-card>
+            </mat-grid-tile>
+            </mat-grid-list>
+    </cdk-virtual-scroll-viewport>
+    
+</div>
+

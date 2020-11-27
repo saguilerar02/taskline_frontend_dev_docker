@@ -37,6 +37,7 @@ export class AddContributorsDialogComponent implements OnInit {
     private authRouter: Router,) {
 
       this.task = data.task;
+      this.task.contributors = new Array<ToolbarProfileDTO>(...this.task.contributors);
       this.errors = {contributors : null};
      }
 
@@ -83,7 +84,7 @@ export class AddContributorsDialogComponent implements OnInit {
     this.snackbar.open(msg);
     setTimeout(() => {
       this.snackbar.dismiss();
-    }, 1000);
+    }, 2000);
   }
   onNoClick(): void {
     this.dialogRef.close();
@@ -93,13 +94,9 @@ export class AddContributorsDialogComponent implements OnInit {
     this.taskService.update(this.task).subscribe({
       next:(data:any)=>{
         if (data.type === 'SUCCESS'){
-          console.log('Guardado');
-          this.snackbar.open(data.msg);
           setTimeout(() => {
             this.isLoading = false;
-            this.snackbar.dismiss();
             this.dialogRef.close({task: this.data});
-            this.authRouter.navigateByUrl('/auth/home');
           }, 1000);
         }
       },

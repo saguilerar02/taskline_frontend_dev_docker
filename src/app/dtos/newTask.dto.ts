@@ -7,7 +7,6 @@ export class NewTaskDTO{
     archivementDateTime: Date;
     createdAt: Date;
     idTasklist: string;
-    status: string;
     contributors: Array<ToolbarProfileDTO>;
     reminders: Array<ReminderDTO>;
 
@@ -16,7 +15,6 @@ export class NewTaskDTO{
         this.description = 'Describiendo que tengo que hacer...';
         this.archivementDateTime = new Date();
         this.idTasklist = null;
-        this.status = 'PENDING';
         this.contributors = new Array<ToolbarProfileDTO>();
         this.reminders = new Array<ReminderDTO>();
     }

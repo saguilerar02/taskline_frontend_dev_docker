@@ -1,14 +1,21 @@
-<cdk-virtual-scroll-viewport itemSize="100" (scrolledIndexChange)="getTimeline()">
-    <mat-card *ngIf="items.length==0">No hay tareas creadas aún, prueba a crear alguna</mat-card>
-    <mat-grid-list cols="4">
-        <mat-grid-tile *cdkVirtualFor="let item of items">
-            <app-preview-simple-task (addContributors)="addContributors($event)" 
-                                     (inpectTask)="inspectTask($event)"  
-                                     (updateTask)="updateTask($event)" 
-                                     (deleteTask)="deleteTask($event)" 
-                                     [task]="item"></app-preview-simple-task>
-        </mat-grid-tile>
-      </mat-grid-list>
-      
+<cdk-virtual-scroll-viewport itemSize="1" (scrolledIndexChange)="getTimeline()">
+        <mat-grid-list cols="4" >
+            <mat-grid-tile>
+                    <button  mat-raised-button class="form-buttons"  (click)="addTask()">
+                        <mat-icon class="white">add</mat-icon>
+                        <span>Añadir nueva tarea</span>
+                    </button> 
+                   
+            </mat-grid-tile>
+            
+            <mat-grid-tile *cdkVirtualFor="let item of subject">
+                <app-preview-simple-task (addReminders)="addReminder($event)"
+                                         (addContributors)="addContributors($event)" 
+                                         (inpectTask)="inspectTask($event)"  
+                                         (updateTask)="updateTask($event)" 
+                                         (deleteTask)="deleteTask($event)" 
+                                         [task]="item"></app-preview-simple-task>
+            </mat-grid-tile>
+          </mat-grid-list>
 </cdk-virtual-scroll-viewport>
   

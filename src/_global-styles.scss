@@ -49,7 +49,7 @@
     align-items: center;
     padding: 5vh 40vw 5vh 40vw;
     background-color: mat-color($grey);
-    height: 100%;
+    height: 83vh;
   }
 
   .spacer{
@@ -124,6 +124,9 @@
 
     margin: 5vh;
   }
+  mat-card.mini-card{
+    width: 20vw;
+  }
 
   //FORMS
   form{
@@ -172,6 +175,9 @@
     mat-icon.white{
       color: mat-color($white)!important;
     }
+    mat-icon.disabled{
+      color: mat-color($grey)!important;
+    }
     mat-icon.sidenav-icon{
       max-width: 5vw;
       margin-right: 1vw;
@@ -198,13 +204,13 @@
       display: flex;
       flex-direction: column;
       width: 80vw;
-      height: 93vh;
+      height: 75vh;
     }
     cdk-virtual-scroll-viewport.small{
       display: flex;
       flex-direction: column;
       width: auto;
-      height: 20vh;
+      height: 30vh;
     }
 
     //img
@@ -268,4 +274,6 @@
       background-color: mat-color($grey)!important;
 
     }
+
+    
 }

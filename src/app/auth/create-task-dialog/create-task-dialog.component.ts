@@ -2,16 +2,11 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
 import { ListDTO } from 'src/app/dtos/list.dto';
-import { NewTaskDTO } from 'src/app/dtos/newTask.dto';
-import { TaskDTO } from 'src/app/dtos/simpleTask.dto';
-import { ToolbarProfileDTO } from 'src/app/dtos/toolbarProfile.dto';
 import { TaskService } from 'src/app/services/task.service';
 import { TasklistService } from 'src/app/services/tasklist.service';
 import { UsersService } from 'src/app/services/users.service';
+import { AppUtilsService } from 'src/app/utils/app-utils.service';
 
 @Component({
   selector: 'app-create-task-dialog',
@@ -24,18 +19,16 @@ export class CreateTaskDialogComponent implements OnInit {
       goal: string;
       description: string;
       archivementDateTime: string;
-      createdAt: string;
       idTasklist: string
     };
 
     public lists: Array<ListDTO>;
-    public task: NewTaskDTO;
+    public task: any;
     public goal: AbstractControl;
     public description: AbstractControl;
     public archivementDateTime: AbstractControl;
-    public createdAt: AbstractControl;
     public idTasklist: AbstractControl;
-    public status: AbstractControl;
+    public disabled:boolean;
 
     public isLoading ;
 
@@ -45,16 +38,25 @@ export class CreateTaskDialogComponent implements OnInit {
     public usersService: UsersService,
     private snackbar: MatSnackBar,
     private fb: FormBuilder,
-    private authRouter: Router,
+    public appUtils: AppUtilsService,
     public dialogRef: MatDialogRef<CreateTaskDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+     
 
       this.task = data.task;
+      if(this.task.createdBy){
+        this.disabled = appUtils.createdByUser(this.task.createdBy)
+      }
+      this.task.archivementDateTime= new Date(this.task.archivementDateTime);
+      if(this.task._id){
+        this.task.idTasklist =  this.task.idTasklist._id
+      }
+      
+
       this.errors = {
         goal: null,
         description: null,
         archivementDateTime: null,
-        createdAt: null,
         idTasklist: null,
       };
       this.isLoading = false;
@@ -64,10 +66,10 @@ export class CreateTaskDialogComponent implements OnInit {
 
     ngOnInit(): void {
       this.formGroup = this.fb.group({
-        goal: ['', Validators.required],
-        description: ['', Validators.required],
-        archivementDateTime: ['', Validators.required],
-        idTasklist: ['', () => this.task.idTasklist != null]
+        goal: [{value:'',disabled:this.disabled}, Validators.required],
+        description: [{value:'',disabled:this.disabled}, Validators.required],
+        archivementDateTime: [{value:'',disabled:this.disabled}, Validators.required],
+        idTasklist: [{value:'',disabled:this.disabled}, Validators.required]
       });
       this.goal = this.formGroup.controls.goal;
       this.description = this.formGroup.controls.description;
@@ -97,18 +99,19 @@ export class CreateTaskDialogComponent implements OnInit {
       }
 
       getErrorMessage(key: string): string {
-      if (this.formGroup.get(key).hasError('required')){
-        return `El campo es requerido`;
+        if (this.formGroup.get(key).hasError('required')){
+          return `El campo es requerido`;
+        }
+        if (this.formGroup.get(key).hasError('invalid')){
+          return this.errors[key];
+        }
       }
-      if (this.formGroup.get(key).hasError('invalid')){
-        return this.errors[key];
-      }
-    }
 
     save(){
       if (this.formGroup.valid){
         this.isLoading = true;
-        this.taskService.create(this.task).subscribe({
+        if(this.task._id){
+          this.taskService.update(this.task).subscribe({
             next: (data: any) => {
               this.manageSuccess(data);
             },
@@ -116,47 +119,56 @@ export class CreateTaskDialogComponent implements OnInit {
               this.manageError(error);
             }
           });
+        }else{
+          this.taskService.create(this.task).subscribe({
+            next: (data: any) => {
+              this.manageSuccess(data);
+            },
+            error: (error: any) => {
+              this.manageError(error);
+            }
+          });
+        }
+        
       }
     }
 
     onDate(event){
-      this.task.archivementDateTime = event
+      this.task.archivementDateTime = event;
     }
 
 
     private manageSuccess(data: any){
       if (data.type === 'SUCCESS'){
-        this.snackbar.open(data.msg);
         setTimeout(() => {
           this.isLoading = false;
-          this.snackbar.dismiss();
-          this.dialogRef.close({task: this.data});
+          this.task = data.task;
+          this.dialogRef.close({task: this.task});
         }, 1000);
       }
     }
     private manageError(error: any){
-      console.log(error);
+
       switch (error.type) {
               case 'ERROR': {
                  this.snackbar.open(error.error);
-              }
-                            break;
+              }             break;
               case 'VALIDATION_ERROR': {
-                console.log(error)
-                Object.keys(this.task).forEach((key) => {
+                Object.keys(this.errors).forEach((key) => {
                   this.formGroup.controls[key].setErrors({invalid: true});
+
                   this.errors[key] = error.error[key];
-              });
-              }
-                                       break;
+                });
+
+              }                        break;
               default: {
                 this.snackbar.open('Ha ocurrido un error inseperado, intentelo de nuevo más tarde');
-              }
-                       break;
+              }        break;
            }
       setTimeout(() => {
-            this.isLoading = false;
-            this.snackbar.dismiss();
+         this.snackbar.dismiss();
+         this.isLoading = false;
+
           }, 1000);
     }
 }

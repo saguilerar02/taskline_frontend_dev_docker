@@ -7,25 +7,20 @@ export class TaskDTO{
     description: string;
     archivementDateTime: Date;
     createdAt: Date;
-    idTasklist: {
-        _id: string,
-        name: string
-    };
+    idTasklist:any
     createdBy: string;
-    status: string;
     contributors: Array<ToolbarProfileDTO>;
     reminders: Array<ReminderDTO>;
 
-    constructor(){
-        this.goal = 'Tengo que hacer tal cosa...';
-        this.description = 'Describiendo que tengo que hacer...';
-        this.archivementDateTime = new Date();
-        this.idTasklist = {
-            _id: '',
-            name:'Nombre de mi lista'
-        };
-        this.status = 'PENDING';
-        this.contributors = new Array<ToolbarProfileDTO>();
-        this.reminders = new Array<ReminderDTO>();
+    constructor(data:any){
+        this._id = data._id;
+        this.goal = data.goal
+        this.description = data.description
+        this.archivementDateTime = data.archivementDateTime
+        this.idTasklist = data.idTasklist
+        this.createdAt = data.createdAt;
+        this.createdBy = data.createdBy;
+        this.contributors = new Array<ToolbarProfileDTO>(...data.contributors);
+        this.reminders = new Array<ReminderDTO>(...data.reminders);
     }
 }

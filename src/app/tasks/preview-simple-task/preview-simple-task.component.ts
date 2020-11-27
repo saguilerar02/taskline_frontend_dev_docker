@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CreateTaskDialogComponent } from 'src/app/auth/create-task-dialog/create-task-dialog.component';
+import { AddRemindersDialogComponent } from 'src/app/auth/add-reminder-dialog/add-reminder-dialog.component';
 import { TaskDTO } from 'src/app/dtos/simpleTask.dto';
 import { TaskService } from 'src/app/services/task.service';
+import { AppUtilsService } from 'src/app/utils/app-utils.service';
 
 @Component({
   selector: 'app-preview-simple-task',
@@ -17,8 +17,9 @@ export class PreviewSimpleTaskComponent implements OnInit {
   @Output() updateTask = new EventEmitter<TaskDTO>();
   @Output() inpectTask = new EventEmitter<TaskDTO>();
   @Output() addContributors = new EventEmitter<TaskDTO>();
+  @Output() addReminders = new EventEmitter<TaskDTO>();
 
-  constructor(private taskService: TaskService, private snackbar: MatSnackBar) { }
+  constructor(private taskService: TaskService, private snackbar: MatSnackBar, public appUtils:AppUtilsService) { }
 
   ngOnInit(): void {
   }
@@ -40,28 +41,5 @@ export class PreviewSimpleTaskComponent implements OnInit {
         }
       }
     });
-
   }
-
-  setStatus(status: string){
-    this.task.status = status;
-    this.taskService.update(this.task).subscribe({
-      next: (data: any) => {
-        if (data.type =='SUCCESS'){
-          this.updateTask.emit(this.task);
-          this.snackbar.open(data.msg);
-          setTimeout(() => {this.snackbar.dismiss(); }, 2000);
-        }
-      },
-      error: (error) => {
-        if (error.type =='ERROR'){
-          this.snackbar.open(error.error);
-          setTimeout(() => {this.snackbar.dismiss(); }, 2000);
-        }
-      }
-    });
-  }
-
-
-
 }

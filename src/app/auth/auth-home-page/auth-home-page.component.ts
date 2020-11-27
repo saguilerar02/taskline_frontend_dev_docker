@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ListDTO } from 'src/app/dtos/list.dto';
+import { NewTaskDTO } from 'src/app/dtos/newTask.dto';
 import { TaskDTO } from 'src/app/dtos/simpleTask.dto';
 import { ToolbarProfileDTO } from 'src/app/dtos/toolbarProfile.dto';
 import { TasklistService } from 'src/app/services/tasklist.service';
@@ -31,30 +32,11 @@ export class AuthHomePageComponent implements OnInit {
     this.getUserLists();
   }
 
-  openTaskDialog(): void {
-    const dialogRef = this.dialog.open(CreateTaskDialogComponent, {
-      height: '60vh',
-      maxWidth: '75vw',
-      data: {task: new TaskDTO()}
-    });
-
-    dialogRef.afterClosed().subscribe(
-      (result) => {
-        if (result){
-          this.snackbar.open('La tarea se ha guardado con éxito');
-          this.router.navigateByUrl('/auth/home')
-          setTimeout(() => {
-            this.snackbar.dismiss();
-          }, 1000);
-        }
-      }
-    );
-  }
   openListDialog(): void {
     const dialogRef = this.dialog.open(CreateTaskDialogComponent, {
       height: '60vh',
       maxWidth: '75vw',
-      data: {task: new TaskDTO()}
+      //data: {task: new TaskDTO()}
     });
 
     dialogRef.afterClosed().subscribe(
