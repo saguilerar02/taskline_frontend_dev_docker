@@ -78,7 +78,7 @@ export class TimelineComponent implements OnInit {
       dialogRef.afterClosed().subscribe(
         (result) => {
           if (result){
-            if (result.task.archivementDateTime < this.items[this.items.length - 1].archivementDateTime || this.items.length<10){
+            if ((this.items.length>0 && result.task.archivementDateTime < this.items[this.items.length - 1].archivementDateTime) || this.items.length<10){
               this.items.push(result.task);
               this.items.sort((a, b) => (new Date(a.archivementDateTime).getTime() - new Date(b.archivementDateTime).getTime()));
               this.lastTask = this.items[this.items.length - 1]._id;

@@ -26,7 +26,22 @@ export class TasklistService {
 
     
     create(dto:ListDTO){
-      return this.http.put( `https://localhost:3443/auth/list/create`,dto, {headers: this.headers})
+      return this.http.post( `https://localhost:3443/auth/list/create`,dto, {headers: this.headers})
+      .pipe(
+          map((data: any) =>data),
+          catchError(data =>throwError(data.error)),
+      );
+    }
+
+    update(dto:ListDTO){
+      return this.http.put( `https://localhost:3443/auth/list/update/${dto._id}`,dto, {headers: this.headers})
+      .pipe(
+          map((data: any) =>data),
+          catchError(data =>throwError(data.error)),
+      );
+    }
+    delete(id:string){
+      return this.http.delete( `https://localhost:3443/auth/list/delete/${id}`, {headers: this.headers})
       .pipe(
           map((data: any) =>data),
           catchError(data =>throwError(data.error)),

@@ -10,11 +10,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CreateTaskDialogComponent } from './create-task-dialog/create-task-dialog.component';
 import { AddContributorsDialogComponent } from './add-contributors-dialog/add-contributors-dialog.component';
 import { AddRemindersDialogComponent } from './add-reminder-dialog/add-reminder-dialog.component';
+import { EditListsComponent } from './edit-lists/edit-lists.component';
 
 
 
 @NgModule({
-  declarations: [AuthHomePageComponent, TimelineComponent, CreateTaskDialogComponent, AddContributorsDialogComponent, AddRemindersDialogComponent],
+  declarations: [AuthHomePageComponent, TimelineComponent, CreateTaskDialogComponent, AddContributorsDialogComponent, AddRemindersDialogComponent, EditListsComponent],
   imports: [
     CommonModule,
     MaterialModule,
@@ -29,7 +30,8 @@ import { AddRemindersDialogComponent } from './add-reminder-dialog/add-reminder-
     TimelineComponent,
     CreateTaskDialogComponent, 
     AddContributorsDialogComponent, 
-    AddRemindersDialogComponent
+    AddRemindersDialogComponent,
+    EditListsComponent
   ]
 })
 export class AuthModule { }

@@ -8,7 +8,7 @@
         <div class="toolbarUserProfile">
             <span class="align-text">{{user.username}}</span>
             <a [routerLink]="['/auth/user']" routerLinkActive="active" > 
-                <img class="avatar" [src]="user.profileImage"/>
+                <img class="avatar" *ngIf="user.profileImage" [src]="'https://localhost:3443/public/static'+user.profileImage"/>
             </a>
         </div>
     </mat-toolbar-row>
@@ -25,11 +25,11 @@
             <mat-list-option (click)=openListDialog()>
                 <div class="sidenav-list-option">
                     <mat-icon class="sidenav-icon">playlist_add</mat-icon>
-                    <span>Añadir nueva lista</span> 
+                    <span>Editar listas</span> 
                 </div>
             </mat-list-option>
-            <mat-list-option *ngFor="let list of lists" [value]="list" >
-                <div class="sidenav-user-lists">
+            <mat-list-option *ngFor="let list of subject.getValue()" [value]="list" >
+                <div>
                     <mat-icon class="sidenav-icon">line_weight</mat-icon>
                     <span class="">{{list.name}} </span>
                 </div>

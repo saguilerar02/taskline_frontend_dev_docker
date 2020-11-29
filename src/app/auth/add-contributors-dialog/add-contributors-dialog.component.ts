@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -9,7 +9,6 @@ import { TaskDTO } from 'src/app/dtos/simpleTask.dto';
 import { ToolbarProfileDTO } from 'src/app/dtos/toolbarProfile.dto';
 import { TaskService } from 'src/app/services/task.service';
 import { UsersService } from 'src/app/services/users.service';
-import { CreateTaskDialogComponent } from '../create-task-dialog/create-task-dialog.component';
 
 @Component({
   selector: 'app-add-contributors-dialog',
@@ -43,7 +42,7 @@ export class AddContributorsDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.formGroup = this.fb.group({
-      contributor: ['', null]
+      contributor: ['', Validators.minLength(1)]
     });
 
     this.contributor = this.formGroup.controls.contributor;
@@ -78,52 +77,52 @@ export class AddContributorsDialogComponent implements OnInit {
         msg = 'Ya has añadido a ese usuario como contribuidor';
       }else{
         this.task.contributors.push(contributor);
-        msg = `Has compartido tu tarea con  contribuidor ${contributor.username}`;
       }
     }
-    this.snackbar.open(msg);
-    setTimeout(() => {
-      this.snackbar.dismiss();
-    }, 2000);
+    if(msg.length>0){
+      this.snackbar.open(msg);
+      setTimeout(() => {
+        this.snackbar.dismiss();
+      }, 2000);
+    }
+   
   }
   onNoClick(): void {
     this.dialogRef.close();
   }
 
   updateTask(){
-    this.taskService.update(this.task).subscribe({
-      next:(data:any)=>{
-        if (data.type === 'SUCCESS'){
-          setTimeout(() => {
-            this.isLoading = false;
-            this.dialogRef.close({task: this.data});
-          }, 1000);
-        }
-      },
-      error:(error: any)=>{
-        switch (error.type) {
-                case 'ERROR': {
-                   this.snackbar.open(error.error);
-                }
-                              break;
-                case 'VALIDATION_ERROR': {
-                  Object.keys(this.task).forEach((key) => {
-                    this.formGroup.controls[key].reset();
-                    this.formGroup.controls[key].setErrors({invalid: true});
-                    this.errors[key] = error.error;
-                });
-                }
-                                         break;
-                default: {
-                  this.snackbar.open('Ha ocurrido un error inseperado, intentelo de nuevo más tarde');
-                }
-                         break;
-             }
-        setTimeout(() => {
+      this.taskService.update(this.task).subscribe({
+        next:(data:any)=>{
+          if (data.type === 'SUCCESS'){
               this.isLoading = false;
-              this.snackbar.dismiss();
-            }, 1000);
-      }
-    })
+              this.dialogRef.close({task: this.data});
+          }
+        },
+        error:(error: any)=>{
+          switch (error.type) {
+                  case 'ERROR': {
+                     this.snackbar.open(error.error);
+                  }
+                                break;
+                  case 'VALIDATION_ERROR': {
+                    Object.keys(this.task).forEach((key) => {
+                      this.formGroup.controls[key].reset();
+                      this.formGroup.controls[key].setErrors({invalid: true});
+                      this.errors[key] = error.error;
+                  });
+                  }
+                                           break;
+                  default: {
+                    this.snackbar.open('Ha ocurrido un error inseperado, intentelo de nuevo más tarde');
+                  }
+                           break;
+               }
+          setTimeout(() => {
+                this.isLoading = false;
+                this.snackbar.dismiss();
+              }, 1000);
+        }
+      });
   }
 }

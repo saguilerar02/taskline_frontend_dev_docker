@@ -64,6 +64,11 @@
     align-items:center;
     justify-content: space-between;
   }
+  .list-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
 
   .align-text{
     text-align: center;
@@ -127,6 +132,13 @@
   mat-card.mini-card{
     width: 20vw;
   }
+  mat-card.medium-card{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 25vw;
+  }
+
 
   //FORMS
   form{
@@ -175,6 +187,12 @@
     mat-icon.white{
       color: mat-color($white)!important;
     }
+    mat-icon.icon-info{
+      color: mat-color($info)!important;
+    }
+    mat-icon.icon-error{
+      color: mat-color($error)!important;
+    }
     mat-icon.disabled{
       color: mat-color($grey)!important;
     }
@@ -211,6 +229,12 @@
       flex-direction: column;
       width: auto;
       height: 30vh;
+    }
+    cdk-virtual-scroll-viewport.medium{
+      display: flex;
+      flex-direction: column;
+      width: 30vw;
+      height: 50vh;
     }
 
     //img

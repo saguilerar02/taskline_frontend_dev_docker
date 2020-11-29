@@ -16,8 +16,8 @@ export class UserProfileComponent implements OnInit {
   public imageGroup: FormData;
   public updateGroup: FormGroup;
 
-  private image: File;
-  public img: string;
+  public image: File;
+  public img:string
 
   public dto: CompleteUserProfileDTO;
   public errors: {
@@ -90,7 +90,6 @@ export class UserProfileComponent implements OnInit {
         this.userService.getUserProfile().subscribe({
           next: (data: any) => {
             this.dto = data.user;
-            this.img = data.img;
           },
           error: (error: any) => {
             if(error.type === 'ERROR'){
@@ -152,7 +151,6 @@ export class UserProfileComponent implements OnInit {
       if(event.target.files[0]){
         this.image = event.target.files[0];
         document.getElementById("mat-button-img-selector").textContent = this.image.name
-
       }
       
     }

@@ -29,7 +29,7 @@ const routes: Routes = [
       path: 'user',
       component: UserProfileComponent,
     },
-    { path: '**', component: LoginFormComponent}
+    { path: '**', component: AuthHomePageComponent}
   ], },
   { path: '**', component: LoginFormComponent}
 ];

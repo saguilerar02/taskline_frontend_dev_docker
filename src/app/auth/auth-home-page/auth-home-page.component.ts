@@ -2,13 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 import { ListDTO } from 'src/app/dtos/list.dto';
-import { NewTaskDTO } from 'src/app/dtos/newTask.dto';
-import { TaskDTO } from 'src/app/dtos/simpleTask.dto';
 import { ToolbarProfileDTO } from 'src/app/dtos/toolbarProfile.dto';
 import { TasklistService } from 'src/app/services/tasklist.service';
 import { UsersService } from 'src/app/services/users.service';
-import { CreateTaskDialogComponent } from '../create-task-dialog/create-task-dialog.component';
+import { EditListsComponent } from '../edit-lists/edit-lists.component';
 
 @Component({
   selector: 'app-auth-home-page',
@@ -19,24 +18,27 @@ export class AuthHomePageComponent implements OnInit {
 
   public user: ToolbarProfileDTO;
   public lists: Array<ListDTO>;
+  public subject: BehaviorSubject<Array<ListDTO>>;
 
 
 
   constructor(public userService: UsersService, public listsService: TasklistService, private snackbar: MatSnackBar, private router: Router, private dialog: MatDialog) {
     this.user = new ToolbarProfileDTO();
     this.lists = new Array<ListDTO>();
+    this.subject = new BehaviorSubject<Array<ListDTO>>(this.lists);
    }
 
   ngOnInit(): void {
     this.displayUserDTO();
     this.getUserLists();
+    this.subject.next(this.lists);
   }
 
   openListDialog(): void {
-    const dialogRef = this.dialog.open(CreateTaskDialogComponent, {
+    const dialogRef = this.dialog.open(EditListsComponent, {
       height: '60vh',
       maxWidth: '75vw',
-      //data: {task: new TaskDTO()}
+       data: {lists: this.lists, subject:this.subject}
     });
 
     dialogRef.afterClosed().subscribe(
@@ -66,10 +68,8 @@ export class AuthHomePageComponent implements OnInit {
     this.listsService.getUserLists().subscribe({
       next: (data) => {
         if (data.lists.length > 0) {
-          const newArray = new Array(...this.lists);
-          newArray.push(...data.lists);
-          this.lists = newArray;
-
+          this.lists = data.lists;
+          this.subject.next(this.lists);
         }
       },
       error: (error) => {
@@ -95,5 +95,4 @@ export class AuthHomePageComponent implements OnInit {
     }, 1000);
 
   }
-
 }

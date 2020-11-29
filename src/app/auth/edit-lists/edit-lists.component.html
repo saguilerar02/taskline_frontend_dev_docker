@@ -1,0 +1,34 @@
+<div  mat-dialog-content >
+    <cdk-virtual-scroll-viewport class="medium" itemSize="1" >
+        <div class="contributors">
+            <form id="create" name="formGroup" [formGroup]="saveListGroup" (ngSubmit)="createList()">
+                <mat-card class="medium-card">
+                    <mat-form-field color="accent" appearance="outline">
+                        <mat-label>Introduzca el nombre de su nueva lista </mat-label>
+                        <input type="text" id="name" name="name" matInput  placeholder="Mi lista de tareas..." [formControl]="name" [(ngModel)]="dto.name">
+                        <mat-error  color="warning" *ngIf="name.invalid">{{getErrorMessage('name')}}</mat-error>
+                    </mat-form-field>
+                    <button  mat-mini-fab class="info mini-fab" name="submit" type="submit">
+                        <mat-icon class="white">save</mat-icon>
+                    </button>      
+                </mat-card>
+            </form>
+        </div>
+        <h1> Listas</h1>
+        <mat-grid-list class="contributors" cols="1"  rowHeight="10vh"  gutterSize="10px">
+            <mat-grid-tile class="no-padding"   *ngFor="let list of lists">
+                    <mat-card class="medium-card">
+                        <div>
+                            <span>{{list.name}}   </span>
+                            <span class="spacer"></span>  
+                        </div>
+                            <button  mat-mini-fab class="error mini-fab" (click)="delete(list)">
+                                <mat-icon class="white">delete</mat-icon>
+                            </button>
+                    </mat-card>
+            </mat-grid-tile>
+        </mat-grid-list>  
+    </cdk-virtual-scroll-viewport>   
+</div>
+
+
