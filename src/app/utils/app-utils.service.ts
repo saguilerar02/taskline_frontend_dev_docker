@@ -7,7 +7,7 @@ export class AppUtilsService {
 
   constructor() { }
 
-  public createdByUser(id:string): boolean{
-    return localStorage.getItem('USER')!==id?true:false;
+  public createdByUser(id: string): boolean{
+    return localStorage.getItem('USER') !== id ? true : false;
   }
 }

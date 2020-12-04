@@ -20,15 +20,30 @@
             
             <mat-error  color="warning" *ngIf="description.invalid">{{getErrorMessage('description')}}</mat-error>
         </mat-form-field>   
-        <mat-form-field color="accent" appearance="outline">
-            <mat-label>Lista de tareas</mat-label>
-            <mat-select [formControl]="idTasklist" required [(ngModel)]="task.idTasklist">
-                <mat-option *ngFor="let  list of lists" [value]="list._id" >
-                {{list.name}}
-                </mat-option>
-            </mat-select>
-            <mat-error *ngIf="idTasklist.invalid">{{getErrorMessage('idTasklist')}}</mat-error>
-            </mat-form-field>
+
+            <ng-container *ngIf="task._id && task.idTasklist._id; else newTask">
+                <mat-form-field color="accent" appearance="outline">
+                    <mat-label>Lista de tareas</mat-label>
+                    <mat-select [formControl]="idTasklist" required [(ngModel)]="task.idTasklist._id">
+                        <mat-option *ngFor="let  list of lists" [value]="list._id" >
+                        {{list.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="idTasklist.invalid">{{getErrorMessage('idTasklist')}}</mat-error>
+                    </mat-form-field>
+                </ng-container>
+            <ng-template #newTask>
+                <mat-form-field color="accent" appearance="outline">
+                    <mat-label>Lista de tareas</mat-label>
+                    <mat-select [formControl]="idTasklist" required [(ngModel)]="task.idTasklist">
+                        <mat-option *ngFor="let  list of lists" [value]="list._id" >
+                        {{list.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="idTasklist.invalid">{{getErrorMessage('idTasklist')}}</mat-error>
+                </mat-form-field>
+            </ng-template>
+        
             <ng-container *ngIf="task._id; else elseTemplate">
                 <button [disabled]="appUtils.createdByUser(task.createdBy)" mat-raised-button class="form-buttons" name="submit" type="submit">Actualizar tarea</button>
             </ng-container>

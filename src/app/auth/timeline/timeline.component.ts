@@ -28,7 +28,6 @@ export class TimelineComponent implements OnInit {
   public totalTasks: number;
   public recargable: boolean;
   constructor(public taskService: TaskService, private snackbar: MatSnackBar, private dialog: MatDialog) {
-
     this.items  = new Array<TaskDTO>();
     this.subject = new BehaviorSubject<Array<TaskDTO>>(this.items);
     this.lastTask = '';
@@ -72,7 +71,6 @@ export class TimelineComponent implements OnInit {
       const dialogRef = this.dialog.open(CreateTaskDialogComponent, {
         height: '70vh',
         maxWidth: '75vw',
-        data: {task: new NewTaskDTO()}
       });
 
       dialogRef.afterClosed().subscribe(
@@ -94,16 +92,16 @@ export class TimelineComponent implements OnInit {
     }
 
     inspectTask(task: TaskDTO){
-      let t = new TaskDTO(task);
-      const dialogRef = this.dialog.open(CreateTaskDialogComponent, {
+      let dialogRef = this.dialog.open(CreateTaskDialogComponent, {
         height: '70vh',
         maxWidth: '75vw',
-        data: {task:t}
+        data: {task:task, list:task.idTasklist._id}
       });
 
       dialogRef.afterClosed().subscribe(
         (result) => {
           if (result){
+            
             this.snackbar.open('La tarea se ha guardado con éxito');
             setTimeout(() => {
               this.snackbar.dismiss();

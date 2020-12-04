@@ -10,15 +10,15 @@ import { SendMailResetPasswordFormComponent } from './my-forms/send-mail-reset-p
 import { UserProfileComponent } from './my-forms/user-profile/user-profile.component';
 
 const routes: Routes = [
-  { path: 'public/login', component: LoginFormComponent},
-  { path: 'public/register', component: RegisterFormComponent },
-  { path: 'public/reset_password', component: SendMailResetPasswordFormComponent },
-  { path: 'public/reset_password/:user/:token', component: ResetPasswordFormComponent },
+  { path: 'public/login', pathMatch: 'full', component: LoginFormComponent},
+  { path: 'public/register', pathMatch: 'full', component: RegisterFormComponent },
+  {path: 'public/sendMailPassReset', component: SendMailResetPasswordFormComponent},
+  { path: 'public/reset_password/:user/:token', component: ResetPasswordFormComponent},
   { path: 'auth', component: AuthHomePageComponent,
   children: [
     {path: '', redirectTo: 'home', pathMatch: 'full'},
     {
-      path: 'home', // child route path
+      path: 'home',
       component: TimelineComponent,
     },
     {

@@ -14,7 +14,7 @@ export class NewTaskDTO{
         this.goal = 'Tengo que hacer tal cosa...';
         this.description = 'Describiendo que tengo que hacer...';
         this.archivementDateTime = new Date();
-        this.idTasklist = null;
+        this.idTasklist = '';
         this.contributors = new Array<ToolbarProfileDTO>();
         this.reminders = new Array<ReminderDTO>();
     }

@@ -39,10 +39,8 @@ export class UsersService {
   sendMailResetPassword(dto: LoginDTO): Observable<string>{
     return this.http.post( `https://localhost:3443/public/resetpassword`, dto, {headers: this.headers})
                 .pipe(
-                    map((data: any) => {
-                      return data; }),
-                    catchError(data => {
-                      return throwError(data.error); }),
+                    map((data: any) => data),
+                    catchError(data => throwError(data.error)),
                 );
 
   }

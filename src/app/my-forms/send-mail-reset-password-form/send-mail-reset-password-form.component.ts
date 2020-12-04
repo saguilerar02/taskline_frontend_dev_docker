@@ -66,11 +66,9 @@ export class SendMailResetPasswordFormComponent implements OnInit {
             }, 2000);
         },
         error: (error: any) => {
-          let err = '';
           switch (error.type) {
             case 'ERROR': {
-               err += error.error;
-               this.snackbar.open(err);
+               this.snackbar.open(error.error);
             }
                           break;
             case 'BAD_CREDENTIALS': {
@@ -85,8 +83,11 @@ export class SendMailResetPasswordFormComponent implements OnInit {
             }
                      break;
          }
+         setTimeout(()=>{
           this.isLoading = false;
           this.snackbar.dismiss();
+         },2000)
+          
         }
       });
     }

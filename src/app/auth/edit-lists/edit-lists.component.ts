@@ -21,7 +21,10 @@ export class EditListsComponent implements OnInit {
   isLoading: boolean;
   public dialogRef: MatDialogRef<CreateTaskDialogComponent>;
 
-  constructor(public listsService: TasklistService, public  snackbar: MatSnackBar, public fb: FormBuilder, @Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor(public listsService: TasklistService,
+              public  snackbar: MatSnackBar,
+              public fb: FormBuilder,
+              @Inject(MAT_DIALOG_DATA) public data: any) {
     this.lists = data.lists;
     this.dto = new ListDTO();
    }
@@ -47,7 +50,7 @@ export class EditListsComponent implements OnInit {
       return this.errors[key];
     }
   }
-    createList(){
+    createList(): void{
       this.listsService.create(this.dto).subscribe({
         next: (data: any) => {
           this.manageSuccess(data);
@@ -59,10 +62,10 @@ export class EditListsComponent implements OnInit {
     }
 
 
-    private manageSuccess(data: any){
+    private manageSuccess(data: any): void{
       if (data.type === 'SUCCESS'){
         this.snackbar.open(data.msg);
-        this.lists.push(data.list)
+        this.lists.push(data.list);
         this.data.subject.next(this.lists);
         setTimeout(() => {
           this.isLoading = false;
@@ -70,7 +73,7 @@ export class EditListsComponent implements OnInit {
         }, 1000);
       }
     }
-    private manageError(error: any){
+    private manageError(error: any): void{
 
       switch (error.type) {
               case 'ERROR': {
@@ -95,19 +98,21 @@ export class EditListsComponent implements OnInit {
           }, 1000);
     }
 
-    delete(list:ListDTO){
+    delete(list: ListDTO): void{
       this.listsService.delete(list._id).subscribe({
         next: (data: any) => {
           if (data.type === 'SUCCESS'){
             this.lists = this.lists.filter((l) => l._id !== list._id);
             this.data.subject.next(this.lists);
-
             this.snackbar.open(data.msg);
-            setTimeout(() => {this.snackbar.dismiss(); }, 2000);
+
+            setTimeout(() => {
+              this.snackbar.dismiss();
+              window.location.reload(); }, 2000);
           }
         },
         error: (error) => {
-          if (error.type =='ERROR'){
+          if (error.type === 'ERROR'){
             this.snackbar.open(error.error);
             setTimeout(() => {this.snackbar.dismiss(); }, 2000);
           }

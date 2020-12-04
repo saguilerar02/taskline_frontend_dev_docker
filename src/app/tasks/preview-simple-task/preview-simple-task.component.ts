@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AddRemindersDialogComponent } from 'src/app/auth/add-reminder-dialog/add-reminder-dialog.component';
 import { TaskDTO } from 'src/app/dtos/simpleTask.dto';
 import { TaskService } from 'src/app/services/task.service';
 import { AppUtilsService } from 'src/app/utils/app-utils.service';

@@ -3,6 +3,8 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ListDTO } from 'src/app/dtos/list.dto';
+import { NewTaskDTO } from 'src/app/dtos/newTask.dto';
+import { TaskDTO } from 'src/app/dtos/simpleTask.dto';
 import { TaskService } from 'src/app/services/task.service';
 import { TasklistService } from 'src/app/services/tasklist.service';
 import { UsersService } from 'src/app/services/users.service';
@@ -28,7 +30,7 @@ export class CreateTaskDialogComponent implements OnInit {
     public description: AbstractControl;
     public archivementDateTime: AbstractControl;
     public idTasklist: AbstractControl;
-    public disabled:boolean;
+    public disabled: boolean;
 
     public isLoading ;
 
@@ -41,17 +43,14 @@ export class CreateTaskDialogComponent implements OnInit {
     public appUtils: AppUtilsService,
     public dialogRef: MatDialogRef<CreateTaskDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-     
+      if (data && data.task){
+        this.task = data.task;
+      }else{
+        this.task = new NewTaskDTO();
+      }
 
-      this.task = data.task;
-      if(this.task.createdBy){
-        this.disabled = appUtils.createdByUser(this.task.createdBy)
-      }
-      this.task.archivementDateTime= new Date(this.task.archivementDateTime);
-      if(this.task._id){
-        this.task.idTasklist =  this.task.idTasklist._id
-      }
-      
+      this.task.archivementDateTime = new Date(this.task.archivementDateTime);
+
 
       this.errors = {
         goal: null,
@@ -65,21 +64,23 @@ export class CreateTaskDialogComponent implements OnInit {
 
 
     ngOnInit(): void {
+      this.getUserLists();
+      if (this.task.createdBy){
+        this.disabled = this.appUtils.createdByUser(this.task.createdBy);
+      }
       this.formGroup = this.fb.group({
-        goal: [{value:'',disabled:this.disabled}, Validators.required],
-        description: [{value:'',disabled:this.disabled}, Validators.required],
-        archivementDateTime: [{value:'',disabled:this.disabled}, Validators.required],
-        idTasklist: [{value:'',disabled:this.disabled}, Validators.required]
+        goal: [{value: '', disabled: this.disabled}, Validators.required],
+        description: [{value: '', disabled: this.disabled}, Validators.required],
+        archivementDateTime: [{value: '', disabled: this.disabled}, Validators.required],
+        idTasklist: [{value: '', disabled: this.disabled}, Validators.required]
       });
       this.goal = this.formGroup.controls.goal;
       this.description = this.formGroup.controls.description;
       this.archivementDateTime = this.formGroup.controls.archivementDateTime;
       this.idTasklist = this.formGroup.controls.idTasklist;
-
-      this.getUserLists();
     }
 
-    getUserLists(){
+    getUserLists(): void{
       this.listsService.getUserLists().subscribe({
         next: (data) => {
           if (data.lists.length > 0) {
@@ -107,11 +108,11 @@ export class CreateTaskDialogComponent implements OnInit {
         }
       }
 
-    save(){
+    save(): void{
       if (this.formGroup.valid){
         this.isLoading = true;
-        if(this.task._id){
-          this.taskService.update(this.task).subscribe({
+        if (this.task._id){
+          this.taskService.update(this.data.task).subscribe({
             next: (data: any) => {
               this.manageSuccess(data);
             },
@@ -129,25 +130,24 @@ export class CreateTaskDialogComponent implements OnInit {
             }
           });
         }
-        
+
       }
     }
 
-    onDate(event){
+    onDate(event): void{
       this.task.archivementDateTime = event;
     }
 
 
-    private manageSuccess(data: any){
+    private manageSuccess(data: any): void{
       if (data.type === 'SUCCESS'){
         setTimeout(() => {
           this.isLoading = false;
-          this.task = data.task;
-          this.dialogRef.close({task: this.task});
+          this.dialogRef.close({task:  data.task});
         }, 1000);
       }
     }
-    private manageError(error: any){
+    private manageError(error: any): void{
 
       switch (error.type) {
               case 'ERROR': {
