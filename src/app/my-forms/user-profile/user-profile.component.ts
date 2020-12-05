@@ -87,9 +87,11 @@ export class UserProfileComponent implements OnInit {
     }
 
     getUserProfile(){
+      this.isLoading = true
         this.userService.getUserProfile().subscribe({
           next: (data: any) => {
             this.dto = data.user;
+            this.isLoading = false;
           },
           error: (error: any) => {
             if(error.type === 'ERROR'){

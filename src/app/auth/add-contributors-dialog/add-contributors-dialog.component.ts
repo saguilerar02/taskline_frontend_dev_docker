@@ -9,6 +9,8 @@ import { TaskDTO } from 'src/app/dtos/simpleTask.dto';
 import { ToolbarProfileDTO } from 'src/app/dtos/toolbarProfile.dto';
 import { TaskService } from 'src/app/services/task.service';
 import { UsersService } from 'src/app/services/users.service';
+import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: 'app-add-contributors-dialog',
@@ -16,8 +18,8 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./add-contributors-dialog.component.scss']
 })
 export class AddContributorsDialogComponent implements OnInit {
-
-  public isLoading :boolean
+  public URLBASE = environment.url_base;
+  public isLoading: boolean;
   public formGroup: FormGroup;
   public task: TaskDTO;
   public errors: {
@@ -33,7 +35,7 @@ export class AddContributorsDialogComponent implements OnInit {
     public usersService: UsersService,
     private snackbar: MatSnackBar,
     private fb: FormBuilder,
-    private authRouter: Router,) {
+    private authRouter: Router, ) {
 
       this.task = data.task;
       this.task.contributors = new Array<ToolbarProfileDTO>(...this.task.contributors);
@@ -79,27 +81,28 @@ export class AddContributorsDialogComponent implements OnInit {
         this.task.contributors.push(contributor);
       }
     }
-    if(msg.length>0){
+    if (msg.length > 0){
       this.snackbar.open(msg);
       setTimeout(() => {
         this.snackbar.dismiss();
       }, 2000);
     }
-   
+
   }
   onNoClick(): void {
     this.dialogRef.close();
   }
 
   updateTask(){
-      this.taskService.update(this.task).subscribe({
-        next:(data:any)=>{
+    this.isLoading = true;
+    this.taskService.update(this.task).subscribe({
+        next: (data: any) => {
           if (data.type === 'SUCCESS'){
               this.isLoading = false;
               this.dialogRef.close({task: this.data});
           }
         },
-        error:(error: any)=>{
+        error: (error: any) => {
           switch (error.type) {
                   case 'ERROR': {
                      this.snackbar.open(error.error);

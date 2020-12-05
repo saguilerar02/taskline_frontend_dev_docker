@@ -13,7 +13,7 @@
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
              
               <mat-option *ngFor="let option of filteredOptions" (click)="addToContributors(option)">
-                  <img class="avatar" [src]="'https://localhost:3443/public/static'+option.profileImage"/>
+                  <img class="avatar" [src]="'http://localhost:3000/public/static'+option.profileImage"/>
                   {{option.username}}
               </mat-option>
             </mat-autocomplete>
@@ -21,7 +21,7 @@
           <cdk-virtual-scroll-viewport class="small" itemSize="1" *ngIf="task.contributors.length>0">
               <mat-grid-list class="contributors" cols="1"  rowHeight="10vh"  gutterSize="10px">
                   <mat-grid-tile class="no-padding"  *ngFor="let contributor of task.contributors">
-                          <img class="avatar-grid" [src]="'https://localhost:3443/public/static'+contributor.profileImage"/>
+                          <img class="avatar-grid" [src]="'http://localhost:3000/public/static'+contributor.profileImage"/>
                           {{contributor.username}}
                           <button  mat-mini-fab class="error mini-fab" (click)="deleteContrib(contributor._id)">
                               <mat-icon class="white">delete</mat-icon>

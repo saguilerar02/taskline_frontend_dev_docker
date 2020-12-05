@@ -8,7 +8,7 @@
         <div class="toolbarUserProfile">
             <span class="align-text">{{user.username}}</span>
             <a [routerLink]="['/auth/user']" routerLinkActive="active" > 
-                <img class="avatar" *ngIf="user.profileImage" [src]="'https://localhost:3443/public/static'+user.profileImage"/>
+                <img class="avatar" *ngIf="user.profileImage" [src]="'http://localhost:3000/public/static'+user.profileImage"/>
             </a>
         </div>
     </mat-toolbar-row>

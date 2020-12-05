@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { throwError } from 'rxjs/internal/observable/throwError';
 import {map, catchError} from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { LoginDTO } from '../dtos/login.dto';
 import { RegisterDTO } from '../dtos/register.dto';
 import { ResetPasswordDTO } from '../dtos/resetPassword.dto';
@@ -20,7 +21,7 @@ export class UsersService {
 
   login(dto: LoginDTO): Observable<string>{
     console.log(dto);
-    return this.http.post( `https://localhost:3443/public/signin`, dto, {headers: this.headers})
+    return this.http.post( `${environment.url_base}public/signin`, dto, {headers: this.headers})
                 .pipe(
                     map((data: any) => data),
                     catchError(data => throwError(data.error)),
@@ -28,7 +29,7 @@ export class UsersService {
 
     }
   register(dto: RegisterDTO): Observable<string>{
-  return this.http.post( `https://localhost:3443/public/signup`, dto, {headers: this.headers})
+  return this.http.post( `${environment.url_base}public/signup`, dto, {headers: this.headers})
               .pipe(
                   map((data: any) => data),
                   catchError(data => throwError(data.error)),
@@ -37,7 +38,7 @@ export class UsersService {
   }
 
   sendMailResetPassword(dto: LoginDTO): Observable<string>{
-    return this.http.post( `https://localhost:3443/public/resetpassword`, dto, {headers: this.headers})
+    return this.http.post( `${environment.url_base}public/resetpassword`, dto, {headers: this.headers})
                 .pipe(
                     map((data: any) => data),
                     catchError(data => throwError(data.error)),
@@ -46,7 +47,7 @@ export class UsersService {
   }
 
   resetPassword(dto: ResetPasswordDTO, user: string, token: string): Observable<string>{
-    return this.http.post( `https://localhost:3443/public/resetpassword/${user}/${token}`, dto, {headers: this.headers})
+    return this.http.post( `${environment.url_base}public/resetpassword/${user}/${token}`, dto, {headers: this.headers})
                 .pipe(
                     map((data: any) => data),
                     catchError(data => throwError(data.error)),
@@ -55,7 +56,7 @@ export class UsersService {
   }
 
   getUserDTO(): Observable<any>{
-    return this.http.get( `https://localhost:3443/auth/userDTO`, {headers: this.headers})
+    return this.http.get( `${environment.url_base}auth/userDTO`, {headers: this.headers})
                 .pipe(
                     map((data: any) => data),
                     catchError(data => throwError(data.error)),
@@ -63,7 +64,7 @@ export class UsersService {
 
   }
   getUserProfile(): Observable<any>{
-    return this.http.get( `https://localhost:3443/auth/profile`, {headers: this.headers})
+    return this.http.get( `${environment.url_base}auth/profile`, {headers: this.headers})
                 .pipe(
                     map((data: any) => data),
                     catchError(data => throwError(data.error)),
@@ -71,7 +72,7 @@ export class UsersService {
   }
 
   updateUser(dto: CompleteUserProfileDTO): Observable<any>{
-    return this.http.put( `https://localhost:3443/auth/profile`, dto, {headers: this.headers})
+    return this.http.put( `${environment.url_base}auth/profile`, dto, {headers: this.headers})
     .pipe(
         map((data: any) => data),
         catchError(data => throwError(data.error)),
@@ -80,7 +81,7 @@ export class UsersService {
 
 
   updateProfileImage(image: FormData): Observable<any>{
-    return this.http.put( `https://localhost:3443/auth/upload`, image)
+    return this.http.put( `${environment.url_base}auth/upload`, image)
     .pipe(
         map((data: any) => data),
         catchError(data => throwError(data.error)),
@@ -88,7 +89,7 @@ export class UsersService {
   }
 
   getUsersByFilter(username: string): Observable<any>{
-    return this.http.get( `https://localhost:3443/auth/users/${username}`, {headers: this.headers})
+    return this.http.get( `${environment.url_base}auth/users/${username}`, {headers: this.headers})
     .pipe(
         map((data: any) => data),
         catchError(data => throwError(data.error)),

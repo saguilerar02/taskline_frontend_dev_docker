@@ -51,6 +51,7 @@ export class AddRemindersDialogComponent implements OnInit {
   }
 
   deleteReminder(id: string): void{
+    this.isLoading = true;
     this.reminderService.delete(id).subscribe({
       next: (data: any) => {
         if (data.type === 'SUCCESS'){

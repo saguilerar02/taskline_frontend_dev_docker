@@ -2,6 +2,7 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { ListDTO } from '../dtos/list.dto';
 
 @Injectable({
@@ -17,7 +18,7 @@ export class TasklistService {
   }
 
     getUserLists(): Observable<any>{
-      return this.http.get( `https://localhost:3443/auth/lists`, {headers: this.headers})
+      return this.http.get( `${environment.url_base}auth/lists`, {headers: this.headers})
                   .pipe(
                       map((data:any) => {return data}),
                       catchError(data => {return throwError(data.error)}),
@@ -26,7 +27,7 @@ export class TasklistService {
 
     
     create(dto:ListDTO){
-      return this.http.post( `https://localhost:3443/auth/list/create`,dto, {headers: this.headers})
+      return this.http.post( `${environment.url_base}auth/list/create`,dto, {headers: this.headers})
       .pipe(
           map((data: any) =>data),
           catchError(data =>throwError(data.error)),
@@ -34,14 +35,14 @@ export class TasklistService {
     }
 
     update(dto:ListDTO){
-      return this.http.put( `https://localhost:3443/auth/list/update/${dto._id}`,dto, {headers: this.headers})
+      return this.http.put( `${environment.url_base}auth/list/update/${dto._id}`,dto, {headers: this.headers})
       .pipe(
           map((data: any) =>data),
           catchError(data =>throwError(data.error)),
       );
     }
     delete(id:string){
-      return this.http.delete( `https://localhost:3443/auth/list/delete/${id}`, {headers: this.headers})
+      return this.http.delete( `${environment.url_base}auth/list/delete/${id}`, {headers: this.headers})
       .pipe(
           map((data: any) =>data),
           catchError(data =>throwError(data.error)),

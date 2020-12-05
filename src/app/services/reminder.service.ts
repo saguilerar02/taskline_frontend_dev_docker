@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { ReminderDTO } from '../dtos/reminder.dto';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,14 +16,14 @@ export class ReminderService {
   }
 
   create(dto:ReminderDTO){
-    return this.http.post( `https://localhost:3443/auth/reminder/create`,dto, {headers: this.headers})
+    return this.http.post( `${environment.url_base}auth/reminder/create`,dto, {headers: this.headers})
     .pipe(
         map((data: any) =>data),
         catchError(data =>throwError(data.error)),
     );
   }
   delete(id:string){
-    return this.http.delete( `https://localhost:3443/auth/reminder/delete/${id}`, {headers: this.headers})
+    return this.http.delete( `${environment.url_base}auth/reminder/delete/${id}`, {headers: this.headers})
     .pipe(
         map((data: any) =>data),
         catchError(data =>throwError(data.error)),
