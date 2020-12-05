@@ -28,8 +28,9 @@ const routes: Routes = [
     {
       path: 'user',
       component: UserProfileComponent,
+      pathMatch: 'full'
     },
-    { path: '**', component: AuthHomePageComponent}
+    { path: '**', component: TimelineComponent}
   ], },
   { path: '**', component: LoginFormComponent}
 ];
